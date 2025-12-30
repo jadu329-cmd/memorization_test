@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026년 삶의 계획과 목표</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #f5f7fa;
+            --surface: #ffffff;
+            --text: #2d3748;
+            --muted: #718096;
+            --border: #e2e8f0;
+            --primary: #4a90e2;
+            --primary-light: #e6f2ff;
+            --accent: #48bb78;
+            --accent-light: #c6f6d5;
+            --warning: #ed8936;
+            --warning-light: #feebc8;
+            --purple: #9f7aea;
+            --purple-light: #e9d8fd;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--purple) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .core-direction {
+            font-size: 1.15em;
+            font-weight: 500;
+            margin-top: 12px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 30px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-left: 4px solid var(--primary);
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card.faith {
+            border-left-color: var(--accent);
+        }
+
+        .card.personal {
+            border-left-color: var(--purple);
+        }
+
+        .card.work {
+            border-left-color: var(--warning);
+        }
+
+        .card-title {
+            font-size: 1.15em;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-content {
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 0.95em;
+        }
+
+        .goal-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: var(--bg);
+            border-radius: 8px;
+        }
+
+        .goal-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .goal-label {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.95em;
+        }
+
+        .goal-detail {
+            color: var(--muted);
+            font-size: 0.9em;
+            margin-left: 18px;
+            margin-top: 4px;
+        }
+
+        .highlight {
+            background: var(--primary-light);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        .point-box {
+            background: var(--accent-light);
+            border-left: 3px solid var(--accent);
+            padding: 12px 15px;
+            margin-top: 10px;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+
+        .point-box strong {
+            color: var(--accent);
+        }
+
+        .sub-goal {
+            margin-left: 12px;
+            margin-top: 6px;
+            padding-left: 12px;
+            border-left: 2px solid var(--border);
+            font-size: 0.88em;
+        }
+
+        .time-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            font-weight: 500;
+            margin-right: 6px;
+        }
+
+        .time-badge.daily {
+            background: var(--accent);
+        }
+
+        .time-badge.weekly {
+            background: var(--purple);
+        }
+
+        .time-badge.quarterly {
+            background: var(--warning);
+        }
+
+        .time-badge.deadline {
+            background: #e53e3e;
+            color: white;
+            font-weight: 600;
+        }
+
+        .deadline-text {
+            color: #e53e3e;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--muted);
+            font-size: 0.9em;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .core-direction {
+                font-size: 1em;
+                padding: 10px 18px;
+            }
+
+            .section-title {
+                font-size: 1.3em;
+            }
+
+            .card {
+                padding: 15px;
+            }
+        }
+
+        .expandable {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .expandable::after {
+            content: '➕';
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 0.8em;
+            opacity: 0.5;
+        }
+
+        .expandable.expanded::after {
+            content: '➖';
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>2026년 삶의 계획과 목표</h1>
+            <div class="core-direction">"주어진 일을 미루지 않는 사람"</div>
+        </header>
+
+        <!-- 신앙생활 목표 -->
+        <section class="section">
+            <h2 class="section-title">1️⃣ 신앙생활</h2>
+            <div class="cards-grid">
+                <div class="card faith">
+                    <div class="card-title">📖 말씀</div>
+                    <div class="card-content">
+                        <div class="goal-item">
+                            <div class="goal-label">
+                                <span class="time-badge daily">매일</span>
+                                총 9장
+                            </div>
+                            <div class="goal-detail">
+                                <div>• 3장을 3번씩 읽기</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card faith">
+                    <div class="card-title">📝 암송</div>
+                    <div class="card-content">
+                        <div class="goal-item">
+                            <div class="goal-label">
+                                <span class="time-badge deadline">1월 목표: 전체 다 외우기</span>
+                            </div>
+                            <div class="goal-detail" style="margin-top: 12px;">
+                                <div style="margin-bottom: 12px; padding: 10px; background: #fef5e7; border-radius: 6px; border-left: 3px solid #e53e3e;">
+                                    <div>
+                                        <span class="time-badge deadline">~1/10</span>
+                                        <span style="font-weight: 600; color: var(--text);">하나님에 대하여</span>
+                                    </div>
+                                </div>
+                                <div style="padding: 10px; background: #fef5e7; border-radius: 6px; border-left: 3px solid #e53e3e;">
+                                    <div>
+                                        <span class="time-badge deadline">~1/31</span>
+                                        <span style="font-weight: 600; color: var(--text);">인생에 대하여</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card faith">
+                    <div class="card-title">💭 묵상</div>
+                    <div class="card-content">
+                        <div class="goal-item">
+                            <div class="goal-label">그날 읽은 말씀 중 1구절 선택</div>
+                            <div class="goal-detail">오전 공유 목표</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card faith">
+                    <div class="card-title">🙏 기도</div>
+                    <div class="card-content">
+                        <div class="goal-item">
+                            <div class="goal-label">
+                                <span class="time-badge daily">매일</span>
+                                아침 / 점심 / 밤
+                            </div>
+                            <div class="goal-detail">퇴근 후 집에 와서</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card faith">
+                    <div class="card-title">⛪ 교회 교제 & 예배</div>
+                    <div class="card-content">
+                        <div class="goal-item">
+                            <div class="goal-label">수요말씀 / 봉사</div>
+                            <div class="goal-detail">목표: 지각하지 않기</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card faith">
+                    <div class="card-title">🌱 전도</div>
+                    <div class="card-content">
+                        <div class="goal-item">
+                            <div class="goal-label">전도 리스트 고민 & 기도</div>
+                            <div class="goal-detail">
+                                <div>핵심 대상: <span class="highlight">아버지</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card faith">
+                    <div class="card-title">👐 봉사</div>
+                    <div class="card-content">
+                        <div class="goal-item">
+                            <div class="goal-label">연간 봉사 목표 설정</div>
+                            <div class="goal-detail">
+                                <div>1년 목표 → <span class="time-badge quarterly">분기별</span> 체크</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 가정생활 & 개인 성장 -->
+        <section class="section">
+            <h2 class="section-title">2️⃣ 가정생활 & 개인 성장</h2>
+            <div class="cards-grid">
+                <div class="card personal">
+                    <div class="card-title">🏠 집 안에서의 루틴</div>
+                    <div class="card-content">
+                        <div class="goal-item">
+                            <div class="goal-label">자기 전 기도</div>
+                        </div>
+                        <div class="goal-item">
+                            <div class="goal-label">집에서 성경 읽기</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card personal">
+                    <div class="card-title">📚 자기계발</div>
+                    <div class="card-content">
+                        <div class="goal-item">
+                            <div class="goal-label">기술사 공부</div>
+                            <div class="goal-detail">
+                                <div style="margin-top: 12px; padding: 12px; background: #fef5e7; border-radius: 6px; border-left: 3px solid #e53e3e;">
+                                    <div style="margin-bottom: 6px;">
+                                        <span class="time-badge deadline">1월 목표</span>
+                                    </div>
+                                    <div style="color: var(--text);">발송배전기술사 책 2번 회독하기</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="goal-item">
+                            <div class="goal-label">영어 공부</div>
+                            <div class="goal-detail">
+                                <div style="margin-top: 12px; padding: 12px; background: #fef5e7; border-radius: 6px; border-left: 3px solid #e53e3e;">
+                                    <div style="margin-bottom: 6px;">
+                                        <span class="time-badge deadline">1월 목표</span>
+                                    </div>
+                                    <div style="color: var(--text);">26년 목표 영어로 말하기</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card personal">
+                    <div class="card-title">🏃 운동</div>
+                    <div class="card-content">
+                        <div class="goal-item">
+                            <div class="goal-label">
+                                <span class="time-badge weekly">주 3회</span>
+                                유산소 30분
+                            </div>
+                        </div>
+                        <div class="goal-item">
+                            <div class="goal-label">
+                                <span class="time-badge weekly">주 3회</span>
+                                2분할 운동
+                            </div>
+                        </div>
+                        <div class="goal-item">
+                            <div class="goal-label">
+                                <span class="time-badge weekly">1주 1회</span>
+                                점심 굶기
+                            </div>
+                        </div>
+                        <div class="goal-item">
+                            <div class="goal-label">
+                                <span class="time-badge weekly">1주 2회</span>
+                                저녁 탄수 2숟갈 + 지방
+                            </div>
+                        </div>
+                        <div class="goal-item">
+                            <div class="goal-label">집회 시</div>
+                            <div class="goal-detail">
+                                <div>• 5시 칼퇴 + 1시간 운동</div>
+                                <div>• 목표: 7시까지 집 복귀</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card personal">
+                    <div class="card-title">📝 블로그</div>
+                    <div class="card-content">
+                        <div class="goal-item">
+                            <div class="goal-label">
+                                <span class="time-badge weekly">매주 월요일</span>
+                                체험단 신청
+                            </div>
+                        </div>
+                        <div class="goal-item">
+                            <div class="goal-label">
+                                <span class="time-badge weekly">주 2회</span>
+                                글 작성
+                            </div>
+                            <div class="goal-detail">작성 당일 댓글 탐방</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 직장생활 목표 -->
+        <section class="section">
+            <h2 class="section-title">3️⃣ 직장생활</h2>
+            <div class="cards-grid">
+                <div class="card work">
+                    <div class="card-title">⏰ 출근 루틴</div>
+                    <div class="card-content">
+                        <div class="goal-item">
+                            <div class="goal-label">
+                                <span class="time-badge daily">07:45 출근</span>
+                            </div>
+                            <div class="goal-detail">기준: "회사 도착" 시간</div>
+                        </div>
+                        <div class="goal-item">
+                            <div class="goal-label">
+                                <span class="time-badge daily">07:25 집 출발</span>
+                                <span class="time-badge daily">07:10 기상</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card work">
+                    <div class="card-title">📦 업무 목표</div>
+                    <div class="card-content">
+                        <div class="goal-item">
+                            <div class="goal-label">SCM 압출 / 혼련 계획</div>
+                            <div class="goal-detail">
+                                <div>• 2026년 초에 구상 완료</div>
+                                <div>• 실행은 <span class="time-badge quarterly">분기별</span>로 나누기</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card work">
+                    <div class="card-title">🍽 점심시간</div>
+                    <div class="card-content">
+                        <div class="goal-item">
+                            <div class="goal-label">성경 읽기 또는 기도</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 경제 -->
+        <section class="section">
+            <h2 class="section-title">4️⃣ 경제</h2>
+            <div class="cards-grid">
+                <div class="card personal">
+                    <div class="card-title">💰 목표</div>
+                    <div class="card-content">
+                        <div class="goal-item">
+                            <div class="goal-label">용돈 50만원</div>
+                            <div class="goal-detail">
+                                <div>• 세차비용</div>
+                                <div>• 식사대접</div>
+                                <div>• 옷</div>
+                            </div>
+                        </div>
+                        <div class="goal-item">
+                            <div class="goal-label">1월 목표</div>
+                            <div class="goal-detail">
+                                <div style="margin-top: 12px; padding: 12px; background: #fef5e7; border-radius: 6px; border-left: 3px solid #e53e3e;">
+                                    <div style="margin-bottom: 6px;">
+                                        <span class="time-badge deadline">1월 목표</span>
+                                    </div>
+                                    <div style="color: var(--text);">신용카드 삭제</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>계속해서 디테일하게 설정해 나가세요! 💪</p>
+            <p style="margin-top: 10px; font-size: 0.85em;">2026년, 주어진 일을 미루지 않는 한 해가 되길 바랍니다.</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025년 Paperless PJT 실적보고서</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .scroll-mt { scroll-margin-top: 6rem; }
+        .accordion-content { transition: max-height 0.3s ease-in-out; }
+        .rotate-icon { transform: rotate(180deg); }
+        .tab-btn.active {
+            background-color: #1e293b; /* slate-800 */
+            color: white;
+            border-bottom: 2px solid #3b82f6; /* blue-500 */
+        }
+        .tab-btn { transition: all 0.2s ease; }
+        .timeline-dot { 
+            position: absolute; left: -11px; top: 4px; 
+            width: 20px; height: 20px; 
+            background-color: white; border-radius: 50%; border-width: 4px; 
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Header -->
+    <header class="fixed w-full bg-slate-900 text-white z-50 shadow-lg">
+        <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+            <h1 class="text-xl font-bold flex items-center">
+                <i class="fa-solid fa-file-invoice py-1 px-2 mr-2 bg-blue-600 rounded"></i>
+                Paperless PJT
+            </h1>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#overview" class="hover:text-blue-400 transition">개요</a>
+                <a href="#timeline" class="hover:text-blue-400 transition">타임라인</a>
+                <a href="#factories" class="hover:text-blue-400 transition">주요활동</a>
+                <a href="#insight" class="hover:text-blue-400 transition">인사이트</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 pt-24 pb-12 space-y-16">
+
+        <!-- Main Title -->
+        <div class="text-center py-8 border-b border-slate-200">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4 tracking-tight">2025 Paperless PJT 실적보고서</h1>
+            <p class="text-xl text-slate-600 font-medium">제조현장 디지털 전환 및 스마트팩토리 기반 구축</p>
+        </div>
+
+        <!-- 1. Overview -->
+        <section id="overview" class="scroll-mt">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-gradient-to-r from-slate-700 to-slate-800 p-6 text-white">
+                    <h2 class="text-2xl font-bold mb-1">1. 프로젝트 개요</h2>
+                    <p class="opacity-80 text-sm">3개 법인(부산/양산/청도) 동시 추진 | 자율적 디지털 전환</p>
+                </div>
+                <div class="p-8 grid md:grid-cols-3 gap-8 text-sm">
+                    <div class="bg-slate-50 p-5 rounded border border-slate-100 hover:shadow-md transition">
+                        <h3 class="font-bold text-blue-700 mb-3 text-lg"><i class="fa-solid fa-flag mr-2"></i>추진 배경</h3>
+                        <ul class="text-slate-700 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-blue-500 mt-1 mr-2"></i>
+                                <span>각 공장의 환경과 니즈에 맞춘 <strong>독립적 과제 수행</strong></span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-blue-500 mt-1 mr-2"></i>
+                                <span>단일 시스템 강제 적용 지양, <strong>검증된 사례 중심 수평 전개</strong></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-50 p-5 rounded border border-slate-100 hover:shadow-md transition">
+                        <h3 class="font-bold text-green-700 mb-3 text-lg"><i class="fa-solid fa-bullseye mr-2"></i>목표</h3>
+                         <ul class="text-slate-700 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i>
+                                <span><strong>종이 없는 업무 환경</strong> 구축 및 기록의 <strong>디지털 데이터화</strong></span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-green-500 mt-1 mr-2"></i>
+                                <span><strong>스마트팩토리</strong> 및 <strong>AI 분석</strong>을 위한 데이터 인프라 마련</span>
+                            </li>
+                        </ul>
+                    </div>
+                     <div class="bg-slate-50 p-5 rounded border border-slate-100 hover:shadow-md transition">
+                        <h3 class="font-bold text-purple-700 mb-3 text-lg"><i class="fa-solid fa-arrows-spin mr-2"></i>운영 방식</h3>
+                        <ul class="text-slate-700 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i>
+                                <span><strong>월 1회 정기회의</strong> 공유 → 2026년 <strong>비정기 협업</strong> 체계 전환</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-purple-500 mt-1 mr-2"></i>
+                                <span>디지털전략센터 및 지원 조직과의 <strong>긴밀한 협업</strong> 구조</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Timeline -->
+        <section id="timeline" class="scroll-mt">
+            <h2 class="text-2xl font-bold text-slate-800 mb-8 flex items-center border-b pb-4">
+                <i class="fa-solid fa-timeline mr-3 text-blue-600"></i>2. 프로젝트 타임라인
+            </h2>
+            <div class="relative border-l-4 border-slate-200 ml-4 md:ml-6 space-y-10 pb-4">
+                
+                <!-- 2월 -->
+                <div class="relative pl-8 md:pl-10">
+                    <div class="timeline-dot border-slate-400"></div>
+                    <span class="text-sm font-bold text-slate-500 block mb-2">2025.02</span>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 hover:border-blue-300 transition">
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-start">
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded font-bold mr-2 mt-0.5">부산</span>
+                                <span class="text-sm text-slate-700">공정별 게시물 현황 조사 및 인프라 점검</span>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded font-bold mr-2 mt-0.5">양산</span>
+                                <span class="text-sm text-slate-700">품질확보실 구축 (불량/스크랩 모니터링)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4월 -->
+                <div class="relative pl-8 md:pl-10">
+                    <div class="timeline-dot border-purple-400"></div>
+                    <span class="text-sm font-bold text-slate-500 block mb-2">2025.04</span>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 hover:border-blue-300 transition">
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-start">
+                                <span class="px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded font-bold mr-2 mt-0.5">양산</span>
+                                <span class="text-sm text-slate-700">작업지도서 하드웨어 설치 시작</span>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="px-2 py-0.5 bg-purple-100 text-purple-800 text-xs rounded font-bold mr-2 mt-0.5">청도</span>
+                                <span class="text-sm text-slate-700">문서 및 점검표(RT/VS/안전) 디지털화 완료</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7월 -->
+                <div class="relative pl-8 md:pl-10">
+                    <div class="timeline-dot border-blue-400"></div>
+                    <span class="text-sm font-bold text-slate-500 block mb-2">2025.07 ~ 08</span>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 hover:border-blue-300 transition">
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-start">
+                                <span class="px-2 py-0.5 bg-slate-200 text-slate-800 text-xs rounded font-bold mr-2 mt-0.5">견학</span>
+                                <span class="text-sm text-slate-700">양산공장 벤치마킹 견학 (7월)</span>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded font-bold mr-2 mt-0.5">부산</span>
+                                <span class="text-sm text-slate-700">키오스크 운영 개시 & 생산/설비 데이터 시각화</span>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded font-bold mr-2 mt-0.5">양산</span>
+                                <span class="text-sm text-slate-700">작업지도서 S/W 개시 & 압출조건 태블릿 입력</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9월 ~ 10월 -->
+                <div class="relative pl-8 md:pl-10">
+                    <div class="timeline-dot border-slate-400"></div>
+                    <span class="text-sm font-bold text-slate-500 block mb-2">2025.09 ~ 10</span>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 hover:border-blue-300 transition">
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-start">
+                                <span class="px-2 py-0.5 bg-slate-200 text-slate-800 text-xs rounded font-bold mr-2 mt-0.5">견학</span>
+                                <span class="text-sm text-slate-700">청도공장 벤치마킹 견학 (10월)</span>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded font-bold mr-2 mt-0.5">부산</span>
+                                <span class="text-sm text-slate-700">관리계획서/스크랩 디지털화 & 환경개선</span>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded font-bold mr-2 mt-0.5">양산</span>
+                                <span class="text-sm text-slate-700">라인 작업자 입력 확인 시스템 & 관리계획서 DB화</span>
+                            </div>
+                             <div class="flex items-start">
+                                <span class="px-2 py-0.5 bg-purple-100 text-purple-800 text-xs rounded font-bold mr-2 mt-0.5">청도</span>
+                                <span class="text-sm text-slate-700">PLM 구축, 설비 모니터링, 스크랩 자동 집계</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 12월 -->
+                <div class="relative pl-8 md:pl-10">
+                    <div class="timeline-dot border-yellow-400"></div>
+                    <span class="text-sm font-bold text-slate-500 block mb-2">2025.12</span>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 hover:border-blue-300 transition">
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-start">
+                                <span class="px-2 py-0.5 bg-purple-100 text-purple-800 text-xs rounded font-bold mr-2 mt-0.5">청도</span>
+                                <span class="text-sm text-slate-700">QMS 시스템, 통합 운영센터 구축, 자동화(로봇/AGV) 고도화</span>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="px-2 py-0.5 bg-slate-200 text-slate-800 text-xs rounded font-bold mr-2 mt-0.5">공통</span>
+                                <span class="text-sm text-slate-700">정기 프로젝트 종료 → 비정기 협업 체계 전환</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 3. Factory Details (Tabs) -->
+        <section id="factories" class="scroll-mt">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center border-b pb-4">
+                <i class="fa-solid fa-industry mr-3 text-blue-600"></i>3. 공장별 주요활동
+            </h2>
+
+            <!-- Tab Buttons -->
+            <div class="flex flex-wrap border-b border-slate-200 mb-8 bg-white sticky top-16 z-40 shadow-sm md:static md:shadow-none">
+                <button onclick="switchTab('busan')" id="tab-busan" class="tab-btn active px-6 py-4 text-sm sm:text-lg font-bold text-slate-600 hover:text-slate-800 focus:outline-none flex items-center flex-1 justify-center">
+                    <span class="w-3 h-3 rounded-full bg-blue-500 mr-2"></span>부산공장
+                </button>
+                <button onclick="switchTab('yangsan')" id="tab-yangsan" class="tab-btn px-6 py-4 text-sm sm:text-lg font-bold text-slate-600 hover:text-slate-800 focus:outline-none flex items-center flex-1 justify-center">
+                    <span class="w-3 h-3 rounded-full bg-green-500 mr-2"></span>양산공장
+                </button>
+                <button onclick="switchTab('qingdao')" id="tab-qingdao" class="tab-btn px-6 py-4 text-sm sm:text-lg font-bold text-slate-600 hover:text-slate-800 focus:outline-none flex items-center flex-1 justify-center">
+                    <span class="w-3 h-3 rounded-full bg-purple-500 mr-2"></span>청도공장
+                </button>
+            </div>
+
+            <!-- Busan Content -->
+            <div id="content-busan" class="tab-content animate-fade-in">
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-blue-50 p-6 rounded-lg border border-blue-100">
+                        <h4 class="font-bold text-blue-800 mb-3"><i class="fa-solid fa-flag mr-2"></i>추진 배경</h4>
+                        <ul class="text-sm text-slate-700 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-triangle-exclamation text-blue-500 mt-1 mr-2"></i>
+                                <span>노후 게시판 운영으로 <strong>정보 시의성 부족</strong> 및 <strong>관리 비효율</strong> 발생</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-triangle-exclamation text-blue-500 mt-1 mr-2"></i>
+                                <span><strong>제조 현장 환경 개선</strong> 및 실시간 정보 공유 <strong>디지털 인프라</strong> 시급</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                        <h4 class="font-bold text-slate-800 mb-3"><i class="fa-solid fa-bullseye mr-2"></i>활동 목표</h4>
+                        <ul class="text-sm text-slate-700 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-circle-check text-green-500 mt-1 mr-2"></i>
+                                <span>생산/설비 데이터 <strong>실시간 시각화</strong> 및 <strong>자동 수집</strong> 체계 구축</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-circle-check text-green-500 mt-1 mr-2"></i>
+                                <span><strong>스마트 팩토리 기반</strong> 마련 및 현장 <strong>업무 효율성 극대화</strong></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="space-y-4 mb-8">
+                    <!-- B-1 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden bg-white">
+                        <button onclick="toggleAccordion('busan-1')" class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-slate-50 transition">
+                            <span class="font-bold text-lg text-slate-800">1. 게시물 디지털화 (공지사항 키오스크)</span>
+                            <i id="icon-busan-1" class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                        </button>
+                        <div id="busan-1" class="hidden border-t border-slate-100 bg-slate-50">
+                            <div class="p-6">
+                                <ul class="list-disc list-inside mb-6 text-sm text-slate-600 space-y-1">
+                                    <li>공정별 게시물 현황 조사 및 인프라 점검</li>
+                                    <li>디지털 전환 문서 선정 및 하드웨어 선정</li>
+                                    <li>전사활동 정보, 제조 정보, 공정별 공지사항 게시</li>
+                                </ul>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-slate-500">BEFORE</span><img src="https://placehold.co/600x450/e2e8f0/64748b?text=Paper+Board" class="w-full rounded shadow-sm"></div>
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-blue-600">AFTER</span><img src="https://placehold.co/600x450/3b82f6/ffffff?text=Digital+Kiosk" class="w-full rounded shadow-sm border-2 border-blue-100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- B-2 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden bg-white">
+                        <button onclick="toggleAccordion('busan-2')" class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-slate-50 transition">
+                            <span class="font-bold text-lg text-slate-800">2. 생산/설비 데이터 시각화</span>
+                            <i id="icon-busan-2" class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                        </button>
+                        <div id="busan-2" class="hidden border-t border-slate-100 bg-slate-50">
+                            <div class="p-6">
+                                <ul class="list-disc list-inside mb-6 text-sm text-slate-600 space-y-1">
+                                    <li>리브드 공정 모델라인 선정 및 SW 시스템 개발</li>
+                                    <li>UI 디자인 표준화</li>
+                                    <li>로엣지, 랩트장척 생산·설비 데이터 시각화 확대 운영</li>
+                                </ul>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-slate-500">BEFORE</span><img src="https://placehold.co/600x450/e2e8f0/64748b?text=Manual+Log" class="w-full rounded shadow-sm"></div>
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-blue-600">AFTER</span><img src="https://placehold.co/600x450/3b82f6/ffffff?text=Data+Dashboard" class="w-full rounded shadow-sm border-2 border-blue-100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- B-3 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden bg-white">
+                        <button onclick="toggleAccordion('busan-3')" class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-slate-50 transition">
+                            <span class="font-bold text-lg text-slate-800">3. 관리계획서 및 스크랩 디지털화</span>
+                            <i id="icon-busan-3" class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                        </button>
+                        <div id="busan-3" class="hidden border-t border-slate-100 bg-slate-50">
+                            <div class="p-6">
+                                <ul class="list-disc list-inside mb-6 text-sm text-slate-600 space-y-1">
+                                    <li>관리계획서: 16개 항목 중 2개 개발완료, 14개 진행 중</li>
+                                    <li>스크랩: 공정별 스크랩 데이터 자동수집 및 전팀 운영</li>
+                                </ul>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-slate-500">BEFORE</span><img src="https://placehold.co/600x450/e2e8f0/64748b?text=Paper+Form" class="w-full rounded shadow-sm"></div>
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-blue-600">AFTER</span><img src="https://placehold.co/600x450/3b82f6/ffffff?text=Auto+System" class="w-full rounded shadow-sm border-2 border-blue-100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- B-4 -->
+                     <div class="border border-slate-200 rounded-lg overflow-hidden bg-white">
+                        <button onclick="toggleAccordion('busan-4')" class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-slate-50 transition">
+                            <span class="font-bold text-lg text-slate-800">4. 디지털화 환경개선 (리모델링)</span>
+                            <i id="icon-busan-4" class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                        </button>
+                        <div id="busan-4" class="hidden border-t border-slate-100 bg-slate-50">
+                            <div class="p-6">
+                                <ul class="list-disc list-inside mb-6 text-sm text-slate-600 space-y-1">
+                                    <li>디지털 사이니지 운영</li>
+                                    <li>생산현장 리모델링 디자인 표준안 구축</li>
+                                    <li>리브드 성형공정 벽체 리모델링 및 작업환경개선</li>
+                                </ul>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-slate-500">BEFORE</span><img src="https://placehold.co/600x450/e2e8f0/64748b?text=Old+Facility" class="w-full rounded shadow-sm"></div>
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-blue-600">AFTER</span><img src="https://placehold.co/600x450/3b82f6/ffffff?text=Remodeled" class="w-full rounded shadow-sm border-2 border-blue-100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-blue-900 text-white p-6 rounded-xl shadow-lg">
+                    <h4 class="font-bold mb-3 text-lg"><i class="fa-solid fa-flag-checkered mr-2 text-blue-400"></i>부산공장 향후 계획</h4>
+                    <ul class="text-sm opacity-90 list-disc list-inside space-y-2">
+                        <li>법적관리항목 점검/기록관리 디지털화 및 관리계획서 전공정 확대</li>
+                        <li>부산공장 관제시스템 구축</li>
+                        <li>물류, 랩트단척 키오스크 확대 운영 및 전공정 설비/바닥 색상 개선</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Yangsan Content -->
+            <div id="content-yangsan" class="tab-content hidden animate-fade-in">
+                 <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-green-50 p-6 rounded-lg border border-green-100">
+                        <h4 class="font-bold text-green-800 mb-3"><i class="fa-solid fa-flag mr-2"></i>추진 배경</h4>
+                        <ul class="text-sm text-slate-700 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-triangle-exclamation text-green-500 mt-1 mr-2"></i>
+                                <span>수기 기록에 따른 <strong>데이터 누락</strong> 및 <strong>입력 오류</strong> 빈번</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-triangle-exclamation text-green-500 mt-1 mr-2"></i>
+                                <span>표준 문서(작업지도서/관리계획서)와 현장 데이터 <strong>불일치</strong>로 <strong>품질 리스크</strong> 우려</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                        <h4 class="font-bold text-slate-800 mb-3"><i class="fa-solid fa-bullseye mr-2"></i>활동 목표</h4>
+                        <ul class="text-sm text-slate-700 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-circle-check text-green-500 mt-1 mr-2"></i>
+                                <span>작업 필수 문서 전면 디지털화로 <strong>휴먼 에러 Zero화</strong> 달성</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-circle-check text-green-500 mt-1 mr-2"></i>
+                                <span>설비 데이터 MES 실시간 연동 및 태블릿 활용으로 <strong>데이터 정합성 확보</strong></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="space-y-4 mb-8">
+                    <!-- Y-1 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden bg-white">
+                        <button onclick="toggleAccordion('yangsan-1')" class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-slate-50 transition">
+                            <span class="font-bold text-lg text-slate-800">1. 품질확보실 구축</span>
+                            <i id="icon-yangsan-1" class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                        </button>
+                        <div id="yangsan-1" class="hidden border-t border-slate-100 bg-slate-50">
+                            <div class="p-6">
+                                <ul class="list-disc list-inside mb-6 text-sm text-slate-600 space-y-1">
+                                    <li>현장에서 즉각 스크랩 중량 확인 및 처리 가능</li>
+                                    <li>불량/스크랩 모니터링 시스템 구축하여 수율 개선</li>
+                                </ul>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-slate-500">BEFORE</span><img src="https://placehold.co/600x450/e2e8f0/64748b?text=Before" class="w-full rounded shadow-sm"></div>
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-green-600">AFTER</span><img src="https://placehold.co/600x450/22c55e/ffffff?text=Quality+Room" class="w-full rounded shadow-sm border-2 border-green-100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Y-2 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden bg-white">
+                        <button onclick="toggleAccordion('yangsan-2')" class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-slate-50 transition">
+                            <span class="font-bold text-lg text-slate-800">2. 작업지도서 디지털화</span>
+                            <i id="icon-yangsan-2" class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                        </button>
+                        <div id="yangsan-2" class="hidden border-t border-slate-100 bg-slate-50">
+                            <div class="p-6">
+                                <ul class="list-disc list-inside mb-6 text-sm text-slate-600 space-y-1">
+                                    <li>수기 관리 작업지도서를 POP와 연동하여 데이터화</li>
+                                    <li>업데이트 누락 방지 및 터치스크린 확인 편리성 증가</li>
+                                </ul>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-slate-500">BEFORE</span><img src="https://placehold.co/600x450/e2e8f0/64748b?text=Paper" class="w-full rounded shadow-sm"></div>
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-green-600">AFTER</span><img src="https://placehold.co/600x450/22c55e/ffffff?text=Digital+Screen" class="w-full rounded shadow-sm border-2 border-green-100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Y-3 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden bg-white">
+                        <button onclick="toggleAccordion('yangsan-3')" class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-slate-50 transition">
+                            <span class="font-bold text-lg text-slate-800">3. 압출조건 및 관리계획서 데이터화</span>
+                            <i id="icon-yangsan-3" class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                        </button>
+                        <div id="yangsan-3" class="hidden border-t border-slate-100 bg-slate-50">
+                            <div class="p-6">
+                                <ul class="list-disc list-inside mb-6 text-sm text-slate-600 space-y-1">
+                                    <li>수기 압출조건을 태블릿을 통해 데이터화 (데이터 수집 가능)</li>
+                                    <li>엑셀 관리계획서(Control Plan) 데이터화로 표준 불일치 예방</li>
+                                    <li>라인 작업자 데이터 입력 유/무 확인 시스템 구축</li>
+                                </ul>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-slate-500">BEFORE</span><img src="https://placehold.co/600x450/e2e8f0/64748b?text=Excel" class="w-full rounded shadow-sm"></div>
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-green-600">AFTER</span><img src="https://placehold.co/600x450/22c55e/ffffff?text=Tablet+App" class="w-full rounded shadow-sm border-2 border-green-100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-green-900 text-white p-6 rounded-xl shadow-lg">
+                    <h4 class="font-bold mb-3 text-lg"><i class="fa-solid fa-flag-checkered mr-2 text-green-400"></i>양산공장 향후 계획</h4>
+                    <ul class="text-sm opacity-90 list-disc list-inside space-y-2">
+                        <li>1.5호/7호/9호 라인 PAPERLESS 확장</li>
+                        <li>1층 게시판 PAPERLESS 전환</li>
+                        <li>수기 작업일보 및 설비 일상점검 시트 태블릿 관리</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Qingdao Content -->
+            <div id="content-qingdao" class="tab-content hidden animate-fade-in">
+                 <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-purple-50 p-6 rounded-lg border border-purple-100">
+                        <h4 class="font-bold text-purple-800 mb-3"><i class="fa-solid fa-flag mr-2"></i>추진 배경</h4>
+                        <ul class="text-sm text-slate-700 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-triangle-exclamation text-purple-500 mt-1 mr-2"></i>
+                                <span>광범위한 현장 수기 점검 한계로 <strong>데이터 신뢰성 저하</strong></span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-triangle-exclamation text-purple-500 mt-1 mr-2"></i>
+                                <span>사후 조치 중심 관리에서 <strong>데이터 기반 사전 예방 체계</strong>로의 전환 요구</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                        <h4 class="font-bold text-slate-800 mb-3"><i class="fa-solid fa-bullseye mr-2"></i>활동 목표</h4>
+                        <ul class="text-sm text-slate-700 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-circle-check text-green-500 mt-1 mr-2"></i>
+                                <span>모바일/센서/로봇 활용 <strong>디지털 팩토리 완성</strong> 및 분산 <strong>시스템 통합</strong></span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-circle-check text-green-500 mt-1 mr-2"></i>
+                                <span>전 공정 가시성 확보를 통한 <strong>운영 효율 극대화</strong></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="space-y-4 mb-8">
+                    <!-- Q-1 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden bg-white">
+                        <button onclick="toggleAccordion('qingdao-1')" class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-slate-50 transition">
+                            <span class="font-bold text-lg text-slate-800">1. 문서 및 점검표 디지털화</span>
+                            <i id="icon-qingdao-1" class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                        </button>
+                        <div id="qingdao-1" class="hidden border-t border-slate-100 bg-slate-50">
+                            <div class="p-6">
+                                <ul class="list-disc list-inside mb-6 text-sm text-slate-600 space-y-1">
+                                    <li>RT작업일보 전산화 관리</li>
+                                    <li>VS작업지도서(#6압출) 데이터화 및 실시간 업데이트</li>
+                                    <li>공장동/생산현장 안전(환경/소방)점검 전산화 및 자동 메일 공유</li>
+                                </ul>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-slate-500">BEFORE</span><img src="https://placehold.co/600x450/e2e8f0/64748b?text=Checklist" class="w-full rounded shadow-sm"></div>
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-purple-600">AFTER</span><img src="https://placehold.co/600x450/a855f7/ffffff?text=Mobile+App" class="w-full rounded shadow-sm border-2 border-purple-100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Q-2 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden bg-white">
+                        <button onclick="toggleAccordion('qingdao-2')" class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-slate-50 transition">
+                            <span class="font-bold text-lg text-slate-800">2. 설비 및 시스템 관리 고도화</span>
+                            <i id="icon-qingdao-2" class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                        </button>
+                        <div id="qingdao-2" class="hidden border-t border-slate-100 bg-slate-50">
+                            <div class="p-6">
+                                <ul class="list-disc list-inside mb-6 text-sm text-slate-600 space-y-1">
+                                    <li>PLM 프로젝트 전산화 (설계 데이터 관리)</li>
+                                    <li>VS압출설비 전산화 관리 (실시간 모니터링)</li>
+                                    <li>VS후공정 스크랩중량 저울연동 수율 관리</li>
+                                    <li>VS생산금형&구금 사용이력 관리 (생명주기 관리)</li>
+                                    <li>QMS시스템 구축 & VS고객불만 통합 관리</li>
+                                </ul>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-slate-500">BEFORE</span><img src="https://placehold.co/600x450/e2e8f0/64748b?text=Scattered+Data" class="w-full rounded shadow-sm"></div>
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-purple-600">AFTER</span><img src="https://placehold.co/600x450/a855f7/ffffff?text=System" class="w-full rounded shadow-sm border-2 border-purple-100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Q-3 -->
+                    <div class="border border-slate-200 rounded-lg overflow-hidden bg-white">
+                        <button onclick="toggleAccordion('qingdao-3')" class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-slate-50 transition">
+                            <span class="font-bold text-lg text-slate-800">3. 통합 모니터링 및 자동화</span>
+                            <i id="icon-qingdao-3" class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                        </button>
+                        <div id="qingdao-3" class="hidden border-t border-slate-100 bg-slate-50">
+                            <div class="p-6">
+                                <ul class="list-disc list-inside mb-6 text-sm text-slate-600 space-y-1">
+                                    <li>CMB 공장 Data 통합 운영센터 구축</li>
+                                    <li>에너지(전기) 사용현황 전산화 관리</li>
+                                    <li>Robot Dog 자동화 안전점검 및 무인 청소기 구축</li>
+                                    <li>AFL 자율주행 무인 지게차 및 지능형 이동차 도입</li>
+                                </ul>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-slate-500">BEFORE</span><img src="https://placehold.co/600x450/e2e8f0/64748b?text=Manual" class="w-full rounded shadow-sm"></div>
+                                    <div class="space-y-2 text-center"><span class="text-xs font-bold text-purple-600">AFTER</span><img src="https://placehold.co/600x450/a855f7/ffffff?text=Automation" class="w-full rounded shadow-sm border-2 border-purple-100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-purple-900 text-white p-6 rounded-xl shadow-lg">
+                    <h4 class="font-bold mb-3 text-lg"><i class="fa-solid fa-flag-checkered mr-2 text-purple-400"></i>청도공장 향후 계획</h4>
+                    <ul class="text-sm opacity-90 list-disc list-inside space-y-2">
+                        <li>RT/PT/CMB 설비수리 전산화 (26.03)</li>
+                        <li>RT 가황 금형 관리 시스템 구축 (26.02) 및 운영상태 모니터링 (26.04)</li>
+                        <li>디지털 팩토리 최종 구축 완료 (26.07)</li>
+                    </ul>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 4. Insight -->
+        <section id="insight" class="scroll-mt pb-20">
+            <h2 class="text-2xl font-bold text-slate-800 mb-8 border-b pb-4">4. 프로젝트 인사이트 및 운영 방향</h2>
+            
+            <div class="grid md:grid-cols-3 gap-6 mb-10">
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="text-3xl text-blue-600 mb-4"><i class="fa-solid fa-users-gear"></i></div>
+                    <h3 class="font-bold text-lg mb-2">운영 방식의 변화</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">단순 시스템 도입보다 중요한 것은 현장 관리자의 인식 전환과 실제 활용도입니다.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="text-3xl text-green-600 mb-4"><i class="fa-solid fa-database"></i></div>
+                    <h3 class="font-bold text-lg mb-2">데이터 인프라</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Paperless는 향후 AI 품질 개선 및 예지보전을 위한 데이터 수집의 첫 단계입니다.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="text-3xl text-purple-600 mb-4"><i class="fa-solid fa-puzzle-piece"></i></div>
+                    <h3 class="font-bold text-lg mb-2">맞춤형 전략</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">공장별 성숙도에 따른 단계적 접근이 획일적 표준화보다 효과적이었습니다.</p>
+                </div>
+            </div>
+
+            <div class="bg-slate-100 p-8 rounded-xl border border-slate-300">
+                <h3 class="text-xl font-bold mb-4">맺음말 및 향후 운영 방향</h3>
+                <p class="text-slate-700 mb-6 leading-relaxed">
+                    2025년 Paperless PJT는 단순히 종이를 없애는 프로젝트가 아니라, 3개 법인이 동시에 현장 디지털 전환을 실험하고 학습한 과정이었습니다. 
+                    정기 프로젝트는 종료되지만, Paperless는 각 법인의 일상적인 개선 활동 속에서 지속될 것입니다.
+                </p>
+                <div class="grid md:grid-cols-2 gap-4 text-sm font-medium">
+                    <div class="bg-white p-4 rounded shadow-sm border-l-4 border-blue-500">
+                        <span class="block text-blue-800 mb-1 font-bold"><i class="fa-solid fa-share-nodes mr-2"></i>상시 정보 공유</span>
+                        <span class="text-slate-600 font-normal">관련 법인 참조(CC), 보고자료/시스템 기획 상호 공유</span>
+                    </div>
+                    <div class="bg-white p-4 rounded shadow-sm border-l-4 border-purple-500">
+                        <span class="block text-purple-800 mb-1 font-bold"><i class="fa-solid fa-comments mr-2"></i>비정기 회의 운영</span>
+                        <span class="text-slate-600 font-normal">타 법인 검토 필요 사례 발생 시, 신규 투자/디지털 과제 등</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center">
+        <p class="mb-2 font-medium">2025 Paperless Project Report</p>
+        <p class="text-xs opacity-70">Confidential - Internal Use Only</p>
+    </footer>
+
+    <!-- Script -->
+    <script>
+        // 아코디언 기능
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById('icon-' + id);
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.classList.add('rotate-icon');
+            } else {
+                content.classList.add('hidden');
+                icon.classList.remove('rotate-icon');
+            }
+        }
+
+        // 탭 전환 기능
+        function switchTab(factory) {
+            // 모든 탭 컨텐츠 숨기기
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // 선택된 탭 컨텐츠 보이기
+            document.getElementById('content-' + factory).classList.remove('hidden');
+
+            // 모든 탭 버튼 비활성화 스타일 적용
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // 선택된 탭 버튼 활성화 스타일 적용
+            document.getElementById('tab-' + factory).classList.add('active');
+        }
+    </script>
+</body>
+</html>

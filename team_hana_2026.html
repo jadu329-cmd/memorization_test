@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 하나부 운영방안</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .scroll-mt { scroll-margin-top: 6rem; }
+        .timeline-dot { 
+            position: absolute; left: -11px; top: 4px; 
+            width: 20px; height: 20px; 
+            background-color: white; border-radius: 50%; border-width: 4px; 
+        }
+        .markdown-content {
+            line-height: 1.8;
+        }
+        .markdown-content h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .markdown-content h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #334155;
+        }
+        .markdown-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #475569;
+        }
+        .markdown-content ul, .markdown-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .markdown-content li {
+            margin-bottom: 0.5rem;
+        }
+        .markdown-content p {
+            margin-bottom: 1rem;
+        }
+        .markdown-content blockquote {
+            border-left: 4px solid #3b82f6;
+            padding-left: 1rem;
+            margin-left: 0;
+            color: #64748b;
+            font-style: italic;
+        }
+        .markdown-content code {
+            background-color: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.9em;
+            color: #e11d48;
+        }
+        .markdown-content pre {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+        .markdown-content pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
+        
+        /* 인쇄 스타일 */
+        @media print {
+            body {
+                background: white;
+            }
+            header, footer, nav, .no-print {
+                display: none !important;
+            }
+            main {
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+            }
+            section {
+                page-break-inside: avoid;
+                margin-bottom: 2rem;
+            }
+            .bg-white, .bg-slate-50, .bg-gradient-to-r {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            table {
+                page-break-inside: auto;
+            }
+            tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            thead {
+                display: table-header-group;
+            }
+            tfoot {
+                display: table-footer-group;
+            }
+        }
+        
+        /* PDF 버튼 스타일 */
+        .pdf-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+        .pdf-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .pdf-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .pdf-btn.print-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        @media print {
+            .pdf-buttons {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Header -->
+    <header class="fixed w-full bg-slate-900 text-white z-50 shadow-lg">
+        <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+            <h1 class="text-xl font-bold flex items-center">
+                <i class="fa-solid fa-users py-1 px-2 mr-2 bg-blue-600 rounded"></i>
+                2026 하나부 운영방안
+            </h1>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#timeline" class="hover:text-blue-400 transition">교제 타임라인</a>
+                <a href="#preparation" class="hover:text-blue-400 transition">교제 준비 사항</a>
+                <a href="#meals" class="hover:text-blue-400 transition">식사 내역</a>
+                <a href="#operation" class="hover:text-blue-400 transition">운영방안</a>
+                <a href="#visit" class="hover:text-blue-400 transition">심방리스트</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 pt-24 pb-12 space-y-16">
+
+        <!-- Main Title -->
+        <div class="text-center py-8 border-b border-slate-200">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4 tracking-tight">2026 하나부 운영방안</h1>
+        </div>
+
+        <!-- Overview -->
+        <section id="overview" class="scroll-mt">
+            <div class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl shadow-lg p-8 text-white">
+                <div class="flex items-center mb-4">
+                    <i class="fa-solid fa-bullseye text-3xl mr-4"></i>
+                    <h2 class="text-3xl font-bold">목표</h2>
+                </div>
+                <p class="text-xl font-medium">하나되는 하나부</p>
+            </div>
+        </section>
+
+        <!-- 1. 교제 타임라인 -->
+        <section id="timeline" class="scroll-mt">
+            <h2 class="text-2xl font-bold text-slate-800 mb-8 flex items-center border-b pb-4">
+                <i class="fa-solid fa-timeline mr-3 text-blue-600"></i>1. 교제 타임라인
+            </h2>
+            <div class="relative border-l-4 border-slate-200 ml-4 md:ml-6 space-y-10 pb-4">
+                
+                <!-- 2026년 1월 -->
+                <div class="relative pl-8 md:pl-10">
+                    <div class="timeline-dot border-blue-400"></div>
+                    <span class="text-sm font-bold text-slate-500 block mb-2">2026.01</span>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 hover:border-blue-300 transition">
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-start">
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded font-bold mr-2 mt-0.5">교제</span>
+                                <span class="text-sm text-slate-700">1/17 자기소개</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2026년 2월 -->
+                <div class="relative pl-8 md:pl-10">
+                    <div class="timeline-dot border-blue-400"></div>
+                    <span class="text-sm font-bold text-slate-500 block mb-2">2026.02</span>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 hover:border-blue-300 transition">
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-start">
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded font-bold mr-2 mt-0.5">교제</span>
+                                <span class="text-sm text-slate-700">1:1 교제</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 추가할 때마다 여기에 복사해서 붙여넣기 -->
+                <!-- 
+                <div class="relative pl-8 md:pl-10">
+                    <div class="timeline-dot border-blue-400"></div>
+                    <span class="text-sm font-bold text-slate-500 block mb-2">2026.03</span>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 hover:border-blue-300 transition">
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-start">
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded font-bold mr-2 mt-0.5">교제</span>
+                                <span class="text-sm text-slate-700">부서 교제 활동</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                -->
+
+            </div>
+        </section>
+
+        <!-- 2. 식사 내역 타임라인 -->
+        <section id="meals" class="scroll-mt">
+            <h2 class="text-2xl font-bold text-slate-800 mb-8 flex items-center border-b pb-4">
+                <i class="fa-solid fa-utensils mr-3 text-green-600"></i>2. 식사 내역
+            </h2>
+            <div class="relative border-l-4 border-green-200 ml-4 md:ml-6 space-y-6 pb-4">
+                
+                <!-- 식사 항목 예시 - 추가할 때마다 복사해서 사용 -->
+                <!-- 
+                <div class="relative pl-8 md:pl-10">
+                    <div class="timeline-dot border-green-400"></div>
+                    <span class="text-sm font-bold text-slate-500 block mb-2">2025.01.15</span>
+                    <div class="bg-white p-4 rounded-lg shadow-sm border border-slate-200 hover:border-green-300 transition">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <span class="text-sm font-medium text-slate-700">피자, 치킨, 음료</span>
+                                <p class="text-xs text-slate-500 mt-1">부서 회의 후 간단한 식사</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                -->
+
+                <!-- 식사 항목이 없을 때 표시 -->
+                <div class="relative pl-8 md:pl-10">
+                    <div class="bg-slate-100 p-6 rounded-lg border border-slate-200">
+                        <div class="flex items-center mb-3">
+                            <i class="fa-solid fa-info-circle text-blue-500 mr-2"></i>
+                            <p class="text-slate-700 font-medium">식사 준비 지원 정보</p>
+                        </div>
+                        <p class="text-slate-600 text-sm mb-2">청년회 50,000원 지원</p>
+                        <div class="mt-4 pt-4 border-t border-slate-300 text-center">
+                            <i class="fa-solid fa-utensils text-slate-400 text-2xl mb-2"></i>
+                            <p class="text-slate-500 text-sm">아직 준비한 식사가 없습니다.</p>
+                            <p class="text-slate-400 text-xs mt-1">위 주석을 참고하여 식사 항목을 추가해주세요.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 3. 운영방안 -->
+        <section id="operation" class="scroll-mt">
+            <h2 class="text-2xl font-bold text-slate-800 mb-8 flex items-center border-b pb-4">
+                <i class="fa-solid fa-gear mr-3 text-purple-600"></i>3. 운영방안
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                
+                <!-- 임원모임 -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition">
+                    <div class="bg-gradient-to-r from-purple-600 to-purple-700 p-5 text-white">
+                        <div class="flex items-center mb-2">
+                            <i class="fa-solid fa-user-tie text-xl mr-3"></i>
+                            <h3 class="text-xl font-bold">1) 임원모임</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3 text-slate-700">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check-circle text-purple-500 mt-1 mr-3"></i>
+                                <div>
+                                    <span class="font-medium">회의사항은 간결하게, 카톡으로 공유하고 결정</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-clock text-purple-500 mt-1 mr-3"></i>
+                                <div>
+                                    <span class="font-medium">시간:</span> 월 1회 토요일 5:00 ~ 6:00
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 심방 -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition">
+                    <div class="bg-gradient-to-r from-green-600 to-green-700 p-5 text-white">
+                        <div class="flex items-center mb-2">
+                            <i class="fa-solid fa-house-heart text-xl mr-3"></i>
+                            <h3 class="text-xl font-bold">2) 심방</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3 text-slate-700">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-won-sign text-green-500 mt-1 mr-3"></i>
+                                <div>
+                                    <span class="font-medium">지원 금액:</span> 실비 월 30,000원 (임원심방 제외)
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-list-check text-green-500 mt-1 mr-3"></i>
+                                <div>
+                                    <span class="font-medium">계획:</span>
+                                    <ul class="mt-2 ml-4 space-y-1">
+                                        <li>• 전체 1회 심방</li>
+                                        <li>• 대학교 방문 심방</li>
+                                        <li>• 임원 직장 심방</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 식사 준비 -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition">
+                    <div class="bg-gradient-to-r from-orange-600 to-orange-700 p-5 text-white">
+                        <div class="flex items-center mb-2">
+                            <i class="fa-solid fa-utensils text-xl mr-3"></i>
+                            <h3 class="text-xl font-bold">3) 식사 준비</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3 text-slate-700">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-won-sign text-orange-500 mt-1 mr-3"></i>
+                                <div>
+                                    <span class="font-medium">청년회 50,000원 지원</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 부서 활동 -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition">
+                    <div class="bg-gradient-to-r from-blue-600 to-blue-700 p-5 text-white">
+                        <div class="flex items-center mb-2">
+                            <i class="fa-solid fa-people-group text-xl mr-3"></i>
+                            <h3 class="text-xl font-bold">4) 부서 활동</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3 text-slate-700">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-mountain text-blue-500 mt-1 mr-3"></i>
+                                <div>
+                                    <span class="font-medium">야외교제 등 안건 교제 필요</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4. 교제 준비 사항 -->
+        <section id="preparation" class="scroll-mt">
+            <h2 class="text-2xl font-bold text-slate-800 mb-8 flex items-center border-b pb-4">
+                <i class="fa-solid fa-clipboard-check mr-3 text-indigo-600"></i>4. 교제 준비 사항
+            </h2>
+            <div class="space-y-6">
+                
+                <!-- 1월 자기소개 -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition">
+                    <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-4 text-white">
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-calendar-day text-lg mr-3"></i>
+                            <h3 class="text-lg font-bold">1월 자기소개</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-2 text-slate-700">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-blue-500 mt-1 mr-3"></i>
+                                <span>자기소개 질문지 작성 - 임원당 1인 15개 공유 후 결정</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 2월 1:1 교제 -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition">
+                    <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-4 text-white">
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-calendar-day text-lg mr-3"></i>
+                            <h3 class="text-lg font-bold">2월 1:1 교제</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-2 text-slate-700">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-indigo-500 mt-1 mr-3"></i>
+                                <span>타이머 준비</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-check text-indigo-500 mt-1 mr-3"></i>
+                                <span>자리 배치 준비</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 5. 심방리스트 -->
+        <section id="visit" class="scroll-mt">
+            <h2 class="text-2xl font-bold text-slate-800 mb-8 flex items-center border-b pb-4">
+                <i class="fa-solid fa-house-heart mr-3 text-pink-600"></i>5. 심방리스트
+            </h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                
+                <!-- 형제 섹션 -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-4 text-white">
+                        <h3 class="text-lg font-bold">형제</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200">
+                                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-700">이름</th>
+                                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-700">날짜</th>
+                                    <th class="px-4 py-3 text-center text-sm font-semibold text-slate-700">회장단 참석</th>
+                                </tr>
+                            </thead>
+                            <tbody id="brothers-tbody" class="divide-y divide-slate-100">
+                                <!-- 형제 데이터가 여기에 추가됩니다 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 자매 섹션 -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-gradient-to-r from-pink-500 to-pink-600 p-4 text-white">
+                        <h3 class="text-lg font-bold">자매</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200">
+                                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-700">이름</th>
+                                    <th class="px-4 py-3 text-left text-sm font-semibold text-slate-700">날짜</th>
+                                    <th class="px-4 py-3 text-center text-sm font-semibold text-slate-700">회장단 참석</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sisters-tbody" class="divide-y divide-slate-100">
+                                <!-- 자매 데이터가 여기에 추가됩니다 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PDF 변환 버튼 -->
+    <div class="pdf-buttons no-print">
+        <button class="pdf-btn" onclick="downloadPDF()" title="PDF 다운로드">
+            <i class="fa-solid fa-file-pdf"></i>
+            <span class="hidden sm:inline">PDF 다운로드</span>
+        </button>
+    </div>
+
+    <script>
+        // PDF 다운로드 기능
+        async function downloadPDF() {
+            // URL 해시 제거 (주소창의 #overview 같은 부분 제거)
+            const originalHash = window.location.hash;
+            if (window.location.hash) {
+                history.replaceState(null, null, window.location.pathname + window.location.search);
+            }
+
+            // 헤더와 버튼 숨기기
+            const header = document.querySelector('header');
+            const buttons = document.querySelector('.pdf-buttons');
+            const footer = document.querySelector('footer');
+            
+            if (header) header.style.display = 'none';
+            if (buttons) buttons.style.display = 'none';
+            if (footer) footer.style.display = 'none';
+
+            // main 요소만 캡처
+            const element = document.querySelector('main');
+            if (!element) {
+                alert('콘텐츠를 찾을 수 없습니다.');
+                if (header) header.style.display = '';
+                if (buttons) buttons.style.display = 'flex';
+                if (footer) footer.style.display = '';
+                return;
+            }
+
+            try {
+                // 전체 HTML을 고해상도 이미지로 캡처 (UI/UX 그대로 유지)
+                const canvas = await html2canvas(element, {
+                    scale: 2, // 고해상도
+                    useCORS: true,
+                    logging: false,
+                    letterRendering: true,
+                    windowWidth: element.scrollWidth,
+                    windowHeight: element.scrollHeight,
+                    backgroundColor: '#f1f5f9',
+                    removeContainer: false,
+                    allowTaint: false
+                });
+
+                const imgData = canvas.toDataURL('image/png', 1.0);
+                
+                // 이미지 크기
+                const imgWidth = canvas.width;
+                const imgHeight = canvas.height;
+                
+                // A4 landscape 크기 (297mm x 210mm)
+                const pdfWidthMM = 297;
+                const pdfHeightMM = 210;
+                
+                // PDF 픽셀 크기 (72 DPI)
+                const pdfWidthPx = (pdfWidthMM / 25.4) * 72;
+                const pdfHeightPx = (pdfHeightMM / 25.4) * 72;
+                
+                // 이미지 너비를 PDF 너비에 맞춤 (비율 유지)
+                const scale = pdfWidthPx / imgWidth;
+                const scaledHeightPx = imgHeight * scale;
+                
+                // PDF 생성
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    unit: 'mm',
+                    format: [pdfWidthMM, pdfHeightMM],
+                    orientation: 'landscape',
+                    compress: false
+                });
+                
+                // 전체 이미지를 여러 페이지에 나누어 추가 (스크롤 가능하도록)
+                let yPos = 0;
+                let remainingHeight = scaledHeightPx;
+                let pageNum = 0;
+                
+                while (remainingHeight > 0) {
+                    if (pageNum > 0) {
+                        pdf.addPage([pdfWidthMM, pdfHeightMM], 'landscape');
+                    }
+                    
+                    // 현재 페이지 높이
+                    const pageHeightPx = Math.min(remainingHeight, pdfHeightPx);
+                    const pageHeightMM = (pageHeightPx / 72) * 25.4;
+                    
+                    // 원본 이미지에서 해당 부분 추출
+                    const sourceY = (scaledHeightPx - remainingHeight) / scale;
+                    const sourceHeight = pageHeightPx / scale;
+                    
+                    // 임시 캔버스에 현재 페이지 부분 그리기
+                    const tempCanvas = document.createElement('canvas');
+                    tempCanvas.width = imgWidth;
+                    tempCanvas.height = sourceHeight;
+                    const ctx = tempCanvas.getContext('2d');
+                    ctx.drawImage(canvas, 0, sourceY, imgWidth, sourceHeight, 0, 0, imgWidth, sourceHeight);
+                    
+                    const pageImgData = tempCanvas.toDataURL('image/png', 1.0);
+                    
+                    // PDF에 추가
+                    pdf.addImage(pageImgData, 'PNG', 0, 0, pdfWidthMM, pageHeightMM);
+                    
+                    remainingHeight -= pageHeightPx;
+                    pageNum++;
+                }
+                
+                pdf.save('2026_하나부_운영방안.pdf');
+                
+                // 완료 후 헤더, 버튼, 푸터 다시 표시 및 해시 복원
+                if (header) header.style.display = '';
+                if (buttons) buttons.style.display = 'flex';
+                if (footer) footer.style.display = '';
+                if (originalHash) {
+                    history.replaceState(null, null, window.location.pathname + window.location.search + originalHash);
+                }
+            } catch (error) {
+                console.error('PDF 생성 오류:', error);
+                alert('PDF 생성 중 오류가 발생했습니다.');
+                // 오류 발생 시에도 헤더, 버튼, 푸터 다시 표시
+                if (header) header.style.display = '';
+                if (buttons) buttons.style.display = 'flex';
+                if (footer) footer.style.display = '';
+                if (originalHash) {
+                    history.replaceState(null, null, window.location.pathname + window.location.search + originalHash);
+                }
+            }
+        }
+        // 심방리스트 데이터 (HANA.counsil.html에서 가져온 형제/자매 리스트)
+        const brothersList = ['박지훈', '김준영', '유원열', '윤소망', '진민수', '박진환', '김주연', '함누리', '최민성'];
+        const sistersList = ['이예은', '김정이', '김행미', '박채은', '최수아', '구자윤', '정민주', '박소정', '김단아', '강리원', '백예림', '강민서', '김민지', '엄선형', '우나경'];
+        
+        // 심방 데이터
+        // 형식: { name: { date: '12/16', withLeader: true/false } }
+        const visitData = {
+            // 형제
+            '김준영': { date: '12/16', withLeader: true },
+            
+            // 자매
+            '박채은': { date: '12/23', withLeader: true },
+        };
+
+        // 심방리스트 렌더링 함수
+        function renderVisitList() {
+            const brothersTbody = document.getElementById('brothers-tbody');
+            const sistersTbody = document.getElementById('sisters-tbody');
+            
+            if (!brothersTbody || !sistersTbody) return;
+            
+            // 형제 명단 렌더링
+            brothersTbody.innerHTML = '';
+            brothersList.forEach(name => {
+                const visitInfo = visitData[name] || {};
+                const visitDate = visitInfo.date || '';
+                const withLeader = visitInfo.withLeader || false;
+                const hasDate = !!visitDate;
+                
+                const tr = document.createElement('tr');
+                const cellBgClass = hasDate ? 'bg-slate-100' : '';
+                tr.innerHTML = `
+                    <td class="px-4 py-3 text-sm font-medium ${hasDate ? 'text-slate-600 ' + cellBgClass : 'text-slate-800'}">${name}</td>
+                    <td class="px-4 py-3 text-sm ${hasDate ? 'text-slate-600 ' + cellBgClass : 'text-slate-600'}">${visitDate || '-'}</td>
+                    <td class="px-4 py-3 text-center ${hasDate ? cellBgClass : ''}">
+                        ${withLeader ? '<i class="fa-solid fa-check text-green-500"></i>' : '<span class="text-slate-400">-</span>'}
+                    </td>
+                `;
+                brothersTbody.appendChild(tr);
+            });
+            
+            // 자매 명단 렌더링
+            sistersTbody.innerHTML = '';
+            sistersList.forEach(name => {
+                const visitInfo = visitData[name] || {};
+                const visitDate = visitInfo.date || '';
+                const withLeader = visitInfo.withLeader || false;
+                const hasDate = !!visitDate;
+                
+                const tr = document.createElement('tr');
+                const cellBgClass = hasDate ? 'bg-slate-100' : '';
+                tr.innerHTML = `
+                    <td class="px-4 py-3 text-sm font-medium ${hasDate ? 'text-slate-600 ' + cellBgClass : 'text-slate-800'}">${name}</td>
+                    <td class="px-4 py-3 text-sm ${hasDate ? 'text-slate-600 ' + cellBgClass : 'text-slate-600'}">${visitDate || '-'}</td>
+                    <td class="px-4 py-3 text-center ${hasDate ? cellBgClass : ''}">
+                        ${withLeader ? '<i class="fa-solid fa-check text-green-500"></i>' : '<span class="text-slate-400">-</span>'}
+                    </td>
+                `;
+                sistersTbody.appendChild(tr);
+            });
+        }
+
+        // 페이지 로드 시 심방리스트 렌더링
+        document.addEventListener('DOMContentLoaded', renderVisitList);
+    </script>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-8 mt-16">
+        <div class="container mx-auto px-4 text-center text-sm text-slate-400">
+            <p>2026 하나부 운영방안 - 하나되는 하나부</p>
+        </div>
+    </footer>
+
+</body>
+</html>
