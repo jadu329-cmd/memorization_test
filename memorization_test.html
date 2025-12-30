@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>암송 점검 TEST 게임</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .game-selector {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .mode-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #764ba2;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5d3a7d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(118, 75, 162, 0.4);
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-info {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #2563eb;
+        }
+
+        .category-selector {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .category-selector.active {
+            display: block;
+        }
+
+        .category-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .game-area {
+            display: none;
+        }
+
+        .game-area.active {
+            display: block;
+        }
+
+        .verse-info {
+            background: #f3f4f6;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .verse-reference {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .verse-number {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .progress {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .input-area {
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            resize: vertical;
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            line-height: 1.6;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .result-area {
+            margin-bottom: 20px;
+        }
+
+        .result-message {
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            display: none;
+        }
+
+        .result-message.show {
+            display: block;
+        }
+
+        .result-message.correct {
+            background: #d1fae5;
+            color: #065f46;
+            border: 2px solid #10b981;
+        }
+
+        .result-message.incorrect {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 2px solid #ef4444;
+        }
+
+        .answer-comparison {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .answer-comparison.show {
+            display: block;
+        }
+
+        .answer-line {
+            margin-bottom: 10px;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .answer-line .correct {
+            color: #065f46;
+        }
+
+        .answer-line .incorrect {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .correct-answer {
+            background: #ecfdf5;
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid #10b981;
+            margin-top: 15px;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .wrong-answer-item {
+            background: #fff;
+            border: 2px solid #fee2e2;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .wrong-answer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #fee2e2;
+        }
+
+        .wrong-answer-reference {
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .wrong-answer-number {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .wrong-answer-verse {
+            line-height: 1.8;
+            font-size: 16px;
+            color: #333;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📖 암송 점검 TEST 게임</h1>
+        
+        <div class="game-selector">
+            <div class="mode-buttons">
+                <button class="btn-primary" onclick="selectMode(1)">1. 전체 순서대로</button>
+                <button class="btn-primary" onclick="selectMode(2)">2. 목차별로 섞기</button>
+                <button class="btn-primary" onclick="selectMode(3)">3. 전체 무작위 섞기</button>
+            </div>
+            
+            <div class="category-selector" id="categorySelector">
+                <h3 style="margin-bottom: 15px; color: #333;">목차 선택</h3>
+                <div class="category-buttons">
+                    <button class="btn-secondary" onclick="selectCategory('성경에 대하여')">성경에 대하여</button>
+                    <button class="btn-secondary" onclick="selectCategory('하나님에 대하여')">하나님에 대하여</button>
+                    <button class="btn-secondary" onclick="selectCategory('그리스도에 대하여')">그리스도에 대하여</button>
+                    <button class="btn-secondary" onclick="selectCategory('인생에 대하여')">인생에 대하여</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-area" id="gameArea">
+            <div class="verse-info">
+                <div class="verse-reference" id="verseReference"></div>
+                <div class="verse-number" id="verseNumber"></div>
+                <div class="progress" id="progress"></div>
+            </div>
+
+            <div class="input-area">
+                <textarea id="userInput" placeholder="암송 내용을 입력하세요..." oninput="checkAnswer()"></textarea>
+            </div>
+
+            <div class="result-area">
+                <div class="result-message" id="resultMessage"></div>
+                
+                <div class="answer-comparison" id="answerComparison"></div>
+                
+                <div class="control-buttons">
+                    <button class="btn-info" onclick="showWrongParts()">틀린 부분만 확인하기</button>
+                    <button class="btn-success" onclick="showFullAnswer()">전체 정답 보기</button>
+                </div>
+                
+                <div class="correct-answer hide" id="fullAnswer"></div>
+            </div>
+
+            <div class="navigation">
+                <div class="nav-buttons">
+                    <button class="btn-secondary" onclick="previousVerse()">이전</button>
+                    <button class="btn-primary" onclick="restartGame()">처음으로</button>
+                    <button class="btn-secondary" onclick="nextVerse()">다음</button>
+                </div>
+                <div class="nav-buttons" style="margin-top: 10px;">
+                    <button class="btn-info" onclick="showWrongAnswers()" style="margin-right: 10px;">📝 오답노트</button>
+                    <button class="btn-primary" onclick="goHome()" style="font-size: 20px; padding: 8px 16px;">🏠</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-area" id="wrongAnswersArea" style="display: none;">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h2 style="color: #333; margin-bottom: 10px;">📝 오답 노트</h2>
+                <p style="color: #6b7280;">틀렸던 문제들을 다시 확인해보세요</p>
+            </div>
+            
+            <div id="wrongAnswersList"></div>
+            
+            <div class="navigation" style="margin-top: 30px;">
+                <div class="nav-buttons">
+                    <button class="btn-secondary" onclick="backToGame()">게임으로 돌아가기</button>
+                    <button class="btn-primary" onclick="goHome()" style="font-size: 20px; padding: 8px 16px;">🏠</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // 암송 데이터
+        // 아래 배열에 암송 데이터를 추가하거나 수정하세요
+        // 형식: { no: 번호, reference: "장절", verse: "구절 내용", category: "목차 이름" }
+        // ============================================
+        const memorizationData = [
+            // 성경에 대하여 (1-12)
+            { no: 1, reference: "신 17:19", verse: "평생에 자기 옆에 두고 읽어서 그 하나님 여호와 경외하기를 배우며 이 율법의 모든 말과 이 규례를 지켜 행할 것이라", category: "성경에 대하여" },
+            { no: 2, reference: "사 34:16", verse: "너희는 여호와의 책을 자세히 읽어보라 이것들이 하나도 빠진 것이 없고 하나도 그 짝이 없는 것이 없으리니 이는 여호와의 입이 이를 명하셨고 그의 신이 이것들을 모으셨음이라", category: "성경에 대하여" },
+            { no: 3, reference: "시 119:9,11", verse: "청년이 무엇으로 그 행실을 깨끗케 하리이까 주의 말씀을 따라 삼갈 것이니이다 내가 주께 범죄치 아니하려 하여 주의 말씀을 내 마음에 두었나이다", category: "성경에 대하여" },
+            { no: 4, reference: "마 4:4", verse: "예수께서 대답하여 가라사대 기록되었으되 사람이 떡으로만 살것이 아니요 하나님의 입으로 나오는 모든 말씀으로 살 것이라 하였느니라 하시니", category: "성경에 대하여" },
+            { no: 5, reference: "요 1:1", verse: "태초에 말씀이 계시니라 이 말씀이 하나님과 함께 계셨으니 이 말씀은 곧 하나님이시니라", category: "성경에 대하여" },
+            { no: 6, reference: "요 5:39", verse: "너희가 성경에서 영생을 얻는줄 생각하고 성경을 상고하거니와 이 성경이 곧 내게 대하여 증거하는 것이로다", category: "성경에 대하여" },
+            { no: 7, reference: "롬 10:17", verse: "그러므로 믿음은 들음에서 나며 들음은 그리스도의 말씀으로 말미암았느니라", category: "성경에 대하여" },
+            { no: 8, reference: "빌 2:16", verse: "생명의 말씀을 밝혀 나의 달음질도 헛되지 아니하고 수고도 헛되지 아니함으로 그리스도의 날에 나로 자랑할 것이 있게 하려 함이라", category: "성경에 대하여" },
+            { no: 9, reference: "딤후 3:16~17", verse: "모든 성경은 하나님의 감동으로 된 것으로 교훈과 책망과 바르게 함과 의로 교육하기에 유익하니 이는 하나님의 사람으로 온전케 하며 모든 선한 일을 행하기에 온전케 하려 함이니라", category: "성경에 대하여" },
+            { no: 10, reference: "벧후 3:16", verse: "또 그 모든 편지에도 이런 일에 관하여 말하였으되 그 중에 알기 어려운 것이 더러 있으니 무식한 자들과 굳세지 못한 자들이 다른 성경과 같이 그것도 억지로 풀다가 스스로 멸망에 이르느니라", category: "성경에 대하여" },
+            { no: 11, reference: "벧후 1:20~21", verse: "먼저 알 것은 경의 모든 예언은 사사로이 풀 것이 아니니 예언은 언제든지 사람의 뜻으로 낸 것이 아니요 오직 성령의 감동하심을 입은 사람들이 하나님께 받아 말한 것임이니라", category: "성경에 대하여" },
+            { no: 12, reference: "계 22:18~19", verse: "내가 이 책의 예언의 말씀을 듣는 각인에게 증거하노니 만일 누구든지 이것들 외에 더하면 하나님이 이 책에 기록된 재앙들을 그에게 더하실 터이요 만일 누구든지 이 책의 예언의 말씀에서 제하여 버리면 하나님이 이 책에 기록된 생명 나무와 및 거룩한 성에 참예함을 제하여 버리시리라", category: "성경에 대하여" },
+            
+            // 하나님에 대하여 (13-22)
+            { no: 13, reference: "민 23:19", verse: "하나님은 인생이 아니시니 식언치 않으시고 인자가 아니시니 후회가 없으시도다 어찌 그 말씀하신 바를 행치 않으시며 하신 말씀을 실행치 않으시랴", category: "하나님에 대하여" },
+            { no: 14, reference: "왕상 8:39", verse: "주는 계신 곳 하늘에서 들으시고 사유하시며 각 사람의 마음을 아시오니 그 모든 행위대로 행하사 갚으시옵소서 주만 홀로 인생의 마음을 다 아심이니이다", category: "하나님에 대하여" },
+            { no: 15, reference: "사 40:26", verse: "너희는 눈을 높이 들어 누가 이 모든 것을 창조하였나 보라 주께서는 수효대로 만상을 이끌어 내시고 각각 그 이름을 부르시나니 그의 권세가 크고 그의 능력이 강하므로 하나도 빠짐이 없느니라", category: "하나님에 대하여" },
+            { no: 16, reference: "사 45:18", verse: "여호와는 하늘을 창조하신 하나님이시며 땅도 조성하시고 견고케 하시되 헛되이 창조치 아니하시고 사람으로 거하게 지으신 자시니라 그 말씀에 나는 여호와라 나 외에 다른 이가 없느니라", category: "하나님에 대하여" },
+            { no: 17, reference: "느 9:6", verse: "오직 주는 여호와시라 하늘과 하늘들의 하늘과 일월 성신과 땅과 땅 위의 만물과 바다와 그 가운데 모든 것을 지으시고 다 보존하시오니 모든 천군이 주께 경배하나이다", category: "하나님에 대하여" },
+            { no: 18, reference: "욥 11:7~9", verse: "네가 하나님의 오묘를 어찌 능히 측량하며 전능자를 어찌 능히 온전히 알겠느냐 하늘보다 높으시니 네가 어찌 하겠으며 음부보다 깊으시니 네가 어찌 알겠느냐 그 도량은 땅보다 크고 바다보다 넓으니라", category: "하나님에 대하여" },
+            { no: 19, reference: "행 17:24~25", verse: "우주와 그 가운데 있는 만유를 지으신 신께서는 천지의 주재시니 손으로 지은 전에 계시지 아니하시고 또 무엇이 부족한 것처럼 사람의 손으로 섬김을 받으시는 것이 아니니 이는 만민에게 생명과 호흡과 만물을 친히 주시는 자이심이라", category: "하나님에 대하여" },
+            { no: 20, reference: "딤전 6:15~16", verse: "기약이 이르면 하나님이 그의 나타나심을 보이시리니 하나님은 복되시고 홀로 한 분이신 능하신 자이며 만왕의 왕이시며 만주의 주시요 오직 그에게만 죽지 아니함이 있고 가까이 가지 못할 빛에 거하시고 아무 사람도 보지 못하였고 또 볼 수 없는 자시니 그에게 존귀와 영원한 능력을 돌릴지어다 아멘", category: "하나님에 대하여" },
+            { no: 21, reference: "요일 1:5", verse: "우리가 저에게서 듣고 너희에게 전하는 소식이 이것이니 곧 하나님은 빛이시라 그에게는 어두움이 조금도 없으시니라", category: "하나님에 대하여" },
+            { no: 22, reference: "요일 4:16", verse: "하나님이 우리를 사랑하시는 사랑을 우리가 알고 믿었노니 하나님은 사랑이시라 사랑 안에 거하는 자는 하나님 안에 거하고 하나님도 그 안에 거하시느니라", category: "하나님에 대하여" },
+            
+            // 그리스도에 대하여 (23-33)
+            { no: 23, reference: "막 10:45", verse: "인자의 온 것은 섬김을 받으려 함이 아니라 도리어 섬기려 하고 자기 목숨을 많은 사람의 대속물로 주려 함이니라", category: "그리스도에 대하여" },
+            { no: 24, reference: "행 10:43", verse: "저에 대하여 모든 선지자도 증거하되 저를 믿는 사람들이 다 그 이름을 힘입어 죄 사함을 받는다 하였느니라", category: "그리스도에 대하여" },
+            { no: 25, reference: "롬 1:3~4", verse: "이 아들로 말하면 육신으로는 다윗의 혈통에서 나셨고 성결의 영으로는 죽은 가운데서 부활하여 능력으로 하나님의 아들로 인정되셨으니 곧 우리 주 예수 그리스도시니라", category: "그리스도에 대하여" },
+            { no: 26, reference: "사 7:14", verse: "그러므로 주께서 친히 징조로 너희에게 주실 것이라 보라 처녀가 잉태하여 아들을 낳을 것이요 그 이름을 임마누엘이라 하리라", category: "그리스도에 대하여" },
+            { no: 27, reference: "사 9:6", verse: "이는 한 아기가 우리에게 났고 한 아들을 우리에게 주신바 되었는데 그 어깨에는 정사를 메었고 그 이름은 기묘자라, 모사라, 전능하신 하나님이라, 영존하시는 아버지라, 평강의 왕이라 할것임이라", category: "그리스도에 대하여" },
+            { no: 28, reference: "눅 1:35", verse: "천사가 대답하여 가로되 성령이 네게 임하시고 지극히 높으신 이의 능력이 너를 덮으시리니 이러므로 나실바 거룩한 자는 하나님의 아들이라 일컬으리라", category: "그리스도에 대하여" },
+            { no: 29, reference: "고후 5:21", verse: "하나님이 죄를 알지도 못하신 자로 우리를 대신하여 죄를 삼으신 것은 우리로 하여금 저의 안에서 하나님의 의가 되게 하려 하심이니라", category: "그리스도에 대하여" },
+            { no: 30, reference: "히 7:24~25", verse: "예수는 영원히 계시므로 그 제사 직분도 갈리지 아니하나니 그러므로 자기를 힘입어 하나님께 나아가는 자들을 온전히 구원하실 수 있으니 이는 그가 항상 살아서 저희를 위하여 간구하심이니라", category: "그리스도에 대하여" },
+            { no: 31, reference: "요 14:6", verse: "예수께서 가라사대 내가 곧 길이요 진리요 생명이니 나로 말미암지 않고는 아버지께로 올 자가 없느니라", category: "그리스도에 대하여" },
+            { no: 32, reference: "히 9:28", verse: "이와 같이 그리스도도 많은 사람의 죄를 담당하시려고 단번에 드리신바 되셨고 구원에 이르게 하기 위하여 죄와 상관 없이 자기를 바라는 자들에게 두번째 나타나시리라", category: "그리스도에 대하여" },
+            { no: 33, reference: "행 13:38~39", verse: "그러므로 형제들아 너희가 알 것은 이 사람을 힘입어 죄 사함을 너희에게 전하는 이것이며 또 모세의 율법으로 너희가 의롭다 하심을 얻지 못하던 모든 일에도 이 사람을 힘입어 믿는 자마다 의롭다 하심을 얻는 이것이라", category: "그리스도에 대하여" },
+            
+            // 인생에 대하여 (34-44)
+            { no: 34, reference: "욥 25:4~6", verse: "그런즉 하나님 앞에서 사람이 어찌 의롭다 하며 부녀에게서 난 자가 어찌 깨끗하다 하랴 하나님의 눈에는 달이라도 명랑치 못하고 별도 깨끗지 못하거든 하물며 벌레인 사람, 구더기인 인생이랴", category: "인생에 대하여" },
+            { no: 35, reference: "시 39:4~5", verse: "여호와여 나의 종말과 연한의 어떠함을 알게 하사 나로 나의 연약함을 알게 하소서 주께서 나의 날을 손 넓이 만큼 되게 하시매 나의 일생이 주의 앞에는 없는 것 같사오니 사람마다 그 든든히 선 때도 진실로 허사 뿐이니이다", category: "인생에 대하여" },
+            { no: 36, reference: "시 90:3~4", verse: "주께서 사람을 티끌로 돌아가게 하시고 말씀하시기를 너희 인생들은 돌아가라 하셨사오니 주의 목전에는 천년이 지나간 어제 같으며 밤의 한 경점 같을 뿐임이니이다", category: "인생에 대하여" },
+            { no: 37, reference: "시 90:10", verse: "우리의 연수가 칠십이요 강건하면 팔십이라도 그 연수의 자랑은 수고와 슬픔 뿐이요 신속히 가니 우리가 날아가나이다", category: "인생에 대하여" },
+            { no: 38, reference: "시 144:3~4", verse: "여호와여 사람이 무엇이관대 주께서 저를 알아주시며 인생이 무엇이관대 저를 생각하시나이까 사람은 헛것 같고 그의 날은 지나가는 그림자 같으니이다", category: "인생에 대하여" },
+            { no: 39, reference: "전 5:15~16", verse: "저가 모태에서 벌거벗고 나왔은즉 그 나온대로 돌아가고 수고하여 얻은 것을 아무 것도 손에 가지고 가지 못하리니 이것도 폐단이라 어떻게 왔든지 그대로 가리니 바람을 잡으려는 수고가 저에게 무엇이 유익하랴", category: "인생에 대하여" },
+            { no: 40, reference: "약 4:14", verse: "내일 일을 너희가 알지 못하는도다 너희 생명이 무엇이뇨 너희는 잠깐 보이다가 없어지는 안개니라", category: "인생에 대하여" },
+            { no: 41, reference: "시 14:1", verse: "어리석은 자는 그 마음에 이르기를 하나님이 없다 하도다 저희는 부패하고 소행이 가증하여 선을 행하는 자가 없도다", category: "인생에 대하여" },
+            { no: 42, reference: "전 1:2~4", verse: "전도자가 가로되 헛되고 헛되며 헛되고 헛되니 모든 것이 헛되도다 사람이 해 아래서 수고하는 모든 수고가 자기에게 무엇이 유익한고 한 세대는 가고 한 세대는 오되 땅은 영원히 있도다", category: "인생에 대하여" },
+            { no: 43, reference: "약 1:9~10", verse: "낮은 형제는 자기의 높음을 자랑하고 부한 형제는 자기의 낮아짐을 자랑할지니 이는 풀의 꽃과 같이 지나감이라", category: "인생에 대하여" },
+            { no: 44, reference: "잠 27:1", verse: "너는 내일 일을 자랑하지 말라 하루 동안에 무슨 일이 날는지 네가 알 수 없음이니라", category: "인생에 대하여" }
+        ];
+
+        let currentMode = null;
+        let currentCategory = null;
+        let currentQuestions = [];
+        let currentIndex = 0;
+        let shuffledIndices = [];
+        let isChecking = false;
+        let answerResults = []; // 각 문제의 정답 여부를 추적하는 배열
+        let userAnswers = []; // 사용자가 입력한 답을 저장
+
+        function selectMode(mode) {
+            currentMode = mode;
+            const categorySelector = document.getElementById('categorySelector');
+            
+            if (mode === 1 || mode === 2) {
+                // 전체 순서대로 또는 목차별로 섞기: 목차 선택 필요
+                categorySelector.classList.add('active');
+                document.getElementById('gameArea').classList.remove('active');
+            } else {
+                // 전체 무작위 섞기: 바로 시작
+                categorySelector.classList.remove('active');
+                startGame(mode);
+            }
+        }
+
+        function selectCategory(category) {
+            currentCategory = category;
+            startGame(currentMode, category);
+        }
+
+        function startGame(mode, category = null) {
+            currentMode = mode;
+            currentCategory = category;
+            
+            // 게임 영역 표시
+            document.getElementById('gameArea').classList.add('active');
+            document.getElementById('categorySelector').classList.remove('active');
+            document.getElementById('wrongAnswersArea').style.display = 'none';
+            
+            // 질문 목록 준비
+            if (mode === 1) {
+                // 전체 순서대로: 선택한 목차 내에서 순서대로
+                const categoryData = memorizationData.filter(item => item.category === category);
+                currentQuestions = [...categoryData];
+                shuffledIndices = currentQuestions.map((_, i) => i);
+            } else if (mode === 2) {
+                // 목차별로 섞기: 선택한 목차 내에서 섞기
+                const categoryData = memorizationData.filter(item => item.category === category);
+                currentQuestions = [...categoryData];
+                shuffledIndices = shuffleArray([...Array(categoryData.length).keys()]);
+            } else if (mode === 3) {
+                // 전체 무작위 섞기
+                currentQuestions = [...memorizationData];
+                shuffledIndices = shuffleArray([...Array(memorizationData.length).keys()]);
+            }
+            
+            currentIndex = 0;
+            // 정답 결과 배열 초기화
+            answerResults = [];
+            userAnswers = [];
+            loadCurrentVerse();
+        }
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function loadCurrentVerse() {
+            const questionIndex = shuffledIndices[currentIndex];
+            const verse = currentQuestions[questionIndex];
+            
+            document.getElementById('verseReference').textContent = verse.reference;
+            document.getElementById('verseNumber').textContent = `No. ${verse.no} - ${verse.category}`;
+            document.getElementById('progress').textContent = `${currentIndex + 1} / ${currentQuestions.length}`;
+            
+            // 이전에 입력한 답이 있으면 복원
+            const previousAnswer = userAnswers[questionIndex] || '';
+            document.getElementById('userInput').value = previousAnswer;
+            document.getElementById('userInput').focus();
+            document.getElementById('resultMessage').classList.remove('show', 'correct', 'incorrect');
+            document.getElementById('answerComparison').classList.remove('show');
+            document.getElementById('fullAnswer').classList.add('hide');
+            isChecking = answerResults[questionIndex] === true;
+            
+            // 이미 정답을 맞춘 문제면 정답 메시지 표시
+            if (isChecking) {
+                const resultMessage = document.getElementById('resultMessage');
+                resultMessage.textContent = '✅ 정답입니다!';
+                resultMessage.className = 'result-message show correct';
+            }
+        }
+
+        function normalizeText(text) {
+            // 공백을 하나로 통일하고 앞뒤 공백 제거
+            return text.replace(/\s+/g, ' ').trim();
+        }
+
+        function checkAnswer() {
+            const questionIndex = shuffledIndices[currentIndex];
+            // 이미 정답으로 체크된 문제는 다시 체크하지 않음
+            if (isChecking && answerResults[questionIndex] === true) return;
+            
+            const userInput = document.getElementById('userInput').value;
+            const correctAnswer = currentQuestions[questionIndex].verse;
+            
+            // 사용자 답 저장
+            userAnswers[questionIndex] = userInput;
+            
+            // 공백 정규화 후 비교 (연속된 공백을 하나로 처리)
+            const normalizedUserInput = normalizeText(userInput);
+            const normalizedCorrectAnswer = normalizeText(correctAnswer);
+            
+            const resultMessage = document.getElementById('resultMessage');
+            
+            if (normalizedUserInput === normalizedCorrectAnswer && userInput.trim().length > 0) {
+                resultMessage.textContent = '✅ 정답입니다!';
+                resultMessage.className = 'result-message show correct';
+                document.getElementById('answerComparison').classList.remove('show');
+                document.getElementById('fullAnswer').classList.add('hide');
+                isChecking = true;
+                answerResults[questionIndex] = true; // 정답 기록
+            } else if (userInput.trim().length > 0) {
+                resultMessage.textContent = '❌ 틀렸습니다. 다시 시도해보세요.';
+                resultMessage.className = 'result-message show incorrect';
+                // 오답은 나중에 다시 정답으로 바뀔 수 있으므로 일단 기록하지 않음 (정답이 되면 기록)
+                if (answerResults[questionIndex] === undefined) {
+                    answerResults[questionIndex] = false; // 오답 기록
+                }
+            } else {
+                resultMessage.classList.remove('show');
+                // 답이 없으면 기록하지 않음
+            }
+        }
+
+        function showWrongParts() {
+            const userInput = document.getElementById('userInput').value;
+            const questionIndex = shuffledIndices[currentIndex];
+            const correctAnswer = currentQuestions[questionIndex].verse;
+            
+            const comparison = document.getElementById('answerComparison');
+            comparison.classList.add('show');
+            
+            // 정답 전체를 보여주되 틀린 부분만 빨간색으로 표시
+            let html = '<div style="margin-bottom: 15px; font-weight: bold; color: #333;">틀린 부분 (빨간색으로 표시):</div>';
+            html += '<div class="answer-line" style="line-height: 2;">';
+            
+            // 공백 정규화 함수
+            const normalize = (text) => text.replace(/\s+/g, ' ').trim();
+            const correctNormalized = normalize(correctAnswer);
+            const userNormalized = normalize(userInput);
+            
+            // 원본 정답 텍스트의 각 문자 위치와 정규화된 텍스트의 인덱스 매핑 생성
+            const originalChars = Array.from(correctAnswer);
+            const normalizedChars = Array.from(correctNormalized);
+            const userChars = Array.from(userNormalized);
+            
+            // 원본 텍스트의 각 문자 위치가 정규화된 텍스트의 몇 번째 인덱스인지 매핑
+            // 공백 처리: 원본의 연속된 공백은 정규화된 텍스트의 하나의 공백에 매핑
+            const originalToNormalized = [];
+            let normalizedIdx = 0;
+            let inWhitespace = false;
+            
+            for (let i = 0; i < originalChars.length; i++) {
+                const char = originalChars[i];
+                const isWhitespace = char === ' ' || char === '\n' || char === '\t';
+                
+                if (isWhitespace) {
+                    // 공백인 경우: 연속된 공백의 첫 번째만 정규화된 텍스트에 매핑
+                    if (!inWhitespace && normalizedIdx < normalizedChars.length && normalizedChars[normalizedIdx] === ' ') {
+                        originalToNormalized[i] = normalizedIdx;
+                        normalizedIdx++;
+                    }
+                    inWhitespace = true;
+                } else {
+                    // 공백이 아닌 문자
+                    if (normalizedIdx < normalizedChars.length) {
+                        originalToNormalized[i] = normalizedIdx;
+                        normalizedIdx++;
+                    }
+                    inWhitespace = false;
+                }
+            }
+            
+            // 정규화된 텍스트를 기준으로 틀린 위치 찾기
+            // Dynamic Programming 기반의 문자 단위 비교로 정확한 매칭 수행
+            const wrongPositions = new Set();
+            
+            // 문자 단위로 비교하여 틀린 위치 찾기
+            let correctIdx = 0;
+            let userIdx = 0;
+            
+            while (correctIdx < normalizedChars.length) {
+                const correctChar = normalizedChars[correctIdx];
+                
+                if (userIdx < userChars.length) {
+                    const userChar = userChars[userIdx];
+                    
+                    if (correctChar === userChar) {
+                        // 일치하는 경우: 두 인덱스 모두 증가
+                        correctIdx++;
+                        userIdx++;
+                    } else {
+                        // 틀린 경우: 정답 문자를 틀렸다고 표시
+                        wrongPositions.add(correctIdx);
+                        correctIdx++;
+                        
+                        // 사용자 입력의 현재 문자가 공백이 아닌 경우에만 건너뛰기
+                        // (공백이면 그대로 두고 다음 정답 문자와 비교)
+                        if (userChar !== ' ') {
+                            userIdx++;
+                        }
+                    }
+                } else {
+                    // 사용자 입력이 끝났는데 정답이 남은 경우: 모두 틀린 것으로 표시
+                    wrongPositions.add(correctIdx);
+                    correctIdx++;
+                }
+            }
+            
+            // 원본 텍스트를 순회하면서 틀린 부분 표시
+            for (let i = 0; i < originalChars.length; i++) {
+                const char = originalChars[i];
+                
+                // 공백이나 줄바꿈은 그대로 표시
+                if (char === ' ' || char === '\n' || char === '\t') {
+                    html += char;
+                    continue;
+                }
+                
+                // 이 위치가 정규화된 텍스트의 어느 인덱스인지 확인
+                const mappedIdx = originalToNormalized[i];
+                if (mappedIdx !== undefined && wrongPositions.has(mappedIdx)) {
+                    // 틀린 부분 (빨간색)
+                    html += `<span class="incorrect">${escapeHtml(char)}</span>`;
+                } else {
+                    // 맞는 부분 (검은색)
+                    html += escapeHtml(char);
+                }
+            }
+            
+            html += '</div>';
+            comparison.innerHTML = html;
+        }
+
+        function showFullAnswer() {
+            const questionIndex = shuffledIndices[currentIndex];
+            const correctAnswer = currentQuestions[questionIndex].verse;
+            
+            const fullAnswerDiv = document.getElementById('fullAnswer');
+            fullAnswerDiv.textContent = correctAnswer;
+            fullAnswerDiv.classList.remove('hide');
+        }
+
+        function previousVerse() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadCurrentVerse();
+            }
+        }
+
+        function nextVerse() {
+            // 현재 문제의 답을 저장
+            const userInput = document.getElementById('userInput').value;
+            const questionIndex = shuffledIndices[currentIndex];
+            userAnswers[questionIndex] = userInput;
+            
+            // 현재 문제의 정답 여부 확인 (아직 확인하지 않았다면)
+            if (answerResults[questionIndex] === undefined && userInput.trim().length > 0) {
+                const correctAnswer = currentQuestions[questionIndex].verse;
+                const normalizedUserInput = normalizeText(userInput);
+                const normalizedCorrectAnswer = normalizeText(correctAnswer);
+                answerResults[questionIndex] = normalizedUserInput === normalizedCorrectAnswer;
+            } else if (answerResults[questionIndex] === undefined) {
+                answerResults[questionIndex] = false;
+            }
+            
+            if (currentIndex < currentQuestions.length - 1) {
+                currentIndex++;
+                loadCurrentVerse();
+            } else {
+                // 마지막 문제이면 오답노트 화면으로 이동
+                alert('마지막 구절입니다! 오답노트를 확인하시겠습니까?');
+                showWrongAnswers();
+            }
+        }
+
+        function restartGame() {
+            // 정답 결과 초기화
+            answerResults = [];
+            userAnswers = [];
+            
+            if (currentMode === 3) {
+                // 전체 무작위 모드에서는 다시 섞기
+                shuffledIndices = shuffleArray([...Array(currentQuestions.length).keys()]);
+            } else if (currentMode === 2) {
+                // 목차별 모드에서는 해당 목차 내에서 다시 섞기
+                shuffledIndices = shuffleArray([...Array(currentQuestions.length).keys()]);
+            }
+            currentIndex = 0;
+            loadCurrentVerse();
+        }
+
+        function showWrongAnswers() {
+            // 현재 문제의 답을 저장 (아직 저장되지 않았다면)
+            if (document.getElementById('gameArea').classList.contains('active')) {
+                const userInput = document.getElementById('userInput').value;
+                const questionIndex = shuffledIndices[currentIndex];
+                if (userAnswers[questionIndex] === undefined || userAnswers[questionIndex] !== userInput) {
+                    userAnswers[questionIndex] = userInput;
+                    // 정답 여부도 확인
+                    if (answerResults[questionIndex] === undefined && userInput.trim().length > 0) {
+                        const correctAnswer = currentQuestions[questionIndex].verse;
+                        const normalizedUserInput = normalizeText(userInput);
+                        const normalizedCorrectAnswer = normalizeText(correctAnswer);
+                        answerResults[questionIndex] = normalizedUserInput === normalizedCorrectAnswer;
+                    } else if (answerResults[questionIndex] === undefined) {
+                        answerResults[questionIndex] = false;
+                    }
+                }
+            }
+            
+            // 틀린 문제들 필터링 (답을 입력한 문제 중 틀린 것만)
+            const wrongAnswers = [];
+            const answeredQuestions = new Set(); // 이미 답한 문제들만 체크
+            
+            for (let i = 0; i < currentQuestions.length; i++) {
+                const questionIndex = shuffledIndices[i];
+                const userAnswer = userAnswers[questionIndex];
+                
+                // 답을 입력한 문제만 체크 (userAnswer가 있고 비어있지 않은 경우)
+                if (userAnswer !== undefined && userAnswer.trim().length > 0) {
+                    answeredQuestions.add(i);
+                    // 정답 여부 확인 (아직 확인하지 않았다면)
+                    if (answerResults[questionIndex] === undefined) {
+                        const correctAnswer = currentQuestions[questionIndex].verse;
+                        const normalizedUserInput = normalizeText(userAnswer);
+                        const normalizedCorrectAnswer = normalizeText(correctAnswer);
+                        answerResults[questionIndex] = normalizedUserInput === normalizedCorrectAnswer;
+                    }
+                    
+                    // 틀린 문제만 추가
+                    if (answerResults[questionIndex] === false) {
+                        wrongAnswers.push({
+                            index: i,
+                            questionIndex: questionIndex,
+                            verse: currentQuestions[questionIndex],
+                            userAnswer: userAnswer
+                        });
+                    }
+                }
+            }
+            
+            // 오답이 없으면 메시지 표시
+            if (wrongAnswers.length === 0 && answeredQuestions.size > 0) {
+                alert('🎉 지금까지 푼 문제 중 틀린 것이 없습니다!');
+                return;
+            } else if (answeredQuestions.size === 0) {
+                alert('아직 풀지 않은 문제가 없습니다. 문제를 풀어보세요!');
+                return;
+            }
+            
+            // 게임 화면 숨기고 오답노트 화면 표시
+            document.getElementById('gameArea').classList.remove('active');
+            document.getElementById('wrongAnswersArea').style.display = 'block';
+            
+            // 오답 리스트 렌더링
+            const wrongAnswersList = document.getElementById('wrongAnswersList');
+            let html = `<div style="margin-bottom: 20px; padding: 15px; background: #fee2e2; border-radius: 12px; text-align: center;">
+                <p style="font-size: 18px; font-weight: bold; color: #991b1b;">
+                    총 ${wrongAnswers.length}개의 문제를 틀리셨습니다. (${answeredQuestions.size}개 문제 풀이 완료)
+                </p>
+            </div>`;
+            
+            if (wrongAnswers.length > 0) {
+                wrongAnswers.forEach((wrong, idx) => {
+                    // 틀린 부분 표시를 위한 HTML 생성
+                    const correctAnswer = wrong.verse.verse;
+                    const userAnswerText = wrong.userAnswer;
+                    
+                    // 공백 정규화
+                    const normalize = (text) => text.replace(/\s+/g, ' ').trim();
+                    const correctNormalized = normalize(correctAnswer);
+                    const userNormalized = normalize(userAnswerText);
+                    
+                    // 정답과 사용자 입력을 문자 배열로 변환
+                    const correctChars = Array.from(correctNormalized);
+                    const userChars = Array.from(userNormalized);
+                    
+                    // 원본 정답 텍스트를 표시하되, 공백은 그대로 유지
+                    const originalChars = Array.from(correctAnswer);
+                    let userIdx = 0;
+                    let normalizedIdx = 0; // 정규화된 텍스트의 인덱스 추적
+                    
+                    let verseHtml = '';
+                    for (let i = 0; i < originalChars.length; i++) {
+                        const char = originalChars[i];
+                        
+                        // 공백이나 줄바꿈은 그대로 표시
+                        if (char === ' ' || char === '\n' || char === '\t') {
+                            verseHtml += char;
+                            // 사용자 입력의 공백도 건너뛰기
+                            while (userIdx < userChars.length && 
+                                   (userChars[userIdx] === ' ' || userChars[userIdx] === '\n' || userChars[userIdx] === '\t')) {
+                                userIdx++;
+                            }
+                            continue;
+                        }
+                        
+                        // 정답의 현재 문자와 사용자 입력의 해당 위치 문자 비교
+                        if (normalizedIdx < correctChars.length) {
+                            const correctChar = correctChars[normalizedIdx];
+                            
+                            if (userIdx < userChars.length && correctChar === userChars[userIdx]) {
+                                // 일치하는 문자 (검은색)
+                                verseHtml += escapeHtml(char);
+                                userIdx++;
+                            } else {
+                                // 틀린 부분 (빨간색)
+                                verseHtml += `<span class="incorrect">${escapeHtml(char)}</span>`;
+                                // 사용자 입력에 잘못된 문자가 있으면 건너뛰기
+                                if (userIdx < userChars.length && userChars[userIdx] !== ' ' && 
+                                    userChars[userIdx] !== '\n' && userChars[userIdx] !== '\t') {
+                                    userIdx++;
+                                }
+                            }
+                            normalizedIdx++;
+                        } else {
+                            // 정답 텍스트를 모두 처리한 후 남은 문자들
+                            verseHtml += escapeHtml(char);
+                        }
+                    }
+                    
+                    html += `
+                        <div class="wrong-answer-item">
+                            <div class="wrong-answer-header">
+                                <div>
+                                    <div class="wrong-answer-reference">${wrong.verse.reference}</div>
+                                    <div class="wrong-answer-number">No. ${wrong.verse.no} - ${wrong.verse.category}</div>
+                                </div>
+                                <div style="font-size: 14px; color: #ef4444; font-weight: bold;">
+                                    오답 ${idx + 1}/${wrongAnswers.length}
+                                </div>
+                            </div>
+                            <div class="wrong-answer-verse">
+                                ${verseHtml}
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                html += `<div style="text-align: center; padding: 40px; color: #6b7280;">
+                    <p style="font-size: 18px;">틀린 문제가 없습니다!</p>
+                </div>`;
+            }
+            
+            wrongAnswersList.innerHTML = html;
+        }
+
+        function backToGame() {
+            // 오답노트 화면 숨기고 게임 화면으로 돌아가기
+            document.getElementById('wrongAnswersArea').style.display = 'none';
+            document.getElementById('gameArea').classList.add('active');
+        }
+
+        function goHome() {
+            // 모든 화면 숨기기
+            document.getElementById('gameArea').classList.remove('active');
+            document.getElementById('categorySelector').classList.remove('active');
+            document.getElementById('wrongAnswersArea').style.display = 'none';
+            
+            // 상태 초기화
+            currentMode = null;
+            currentCategory = null;
+            currentQuestions = [];
+            currentIndex = 0;
+            shuffledIndices = [];
+            answerResults = [];
+            userAnswers = [];
+            isChecking = false;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // 입력 후 자동 체크 (디바운스)
+        let checkTimeout;
+        let lastCheckedValue = '';
+        const userInputElement = document.getElementById('userInput');
+        userInputElement.addEventListener('input', () => {
+            const currentValue = userInputElement.value;
+            
+            // 입력이 변경되면 이전 정답 상태 리셋
+            if (currentValue !== lastCheckedValue && isChecking) {
+                isChecking = false;
+                document.getElementById('resultMessage').classList.remove('show', 'correct');
+            }
+            
+            clearTimeout(checkTimeout);
+            checkTimeout = setTimeout(() => {
+                checkAnswer();
+                lastCheckedValue = userInputElement.value;
+            }, 300);
+        });
+    </script>
+</body>
+</html>
