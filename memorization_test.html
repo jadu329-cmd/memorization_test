@@ -521,9 +521,9 @@
             const verse = currentQuestions[questionIndex];
             
             document.getElementById('verseReference').textContent = verse.reference;
-            // 전체 무작위 섞기 모드에서는 카테고리 정보 표시하지 않음
+            // 전체 무작위 섞기 모드에서는 번호와 카테고리 정보 모두 표시하지 않음
             if (currentMode === 3) {
-                document.getElementById('verseNumber').textContent = `No. ${verse.no}`;
+                document.getElementById('verseNumber').textContent = '';
             } else {
                 document.getElementById('verseNumber').textContent = `No. ${verse.no} - ${verse.category}`;
             }
@@ -891,7 +891,7 @@
                             <div class="wrong-answer-header">
                                 <div>
                                     <div class="wrong-answer-reference">${wrong.verse.reference}</div>
-                                    <div class="wrong-answer-number">No. ${wrong.verse.no}${currentMode === 3 ? '' : ' - ' + wrong.verse.category}</div>
+                                    <div class="wrong-answer-number">${currentMode === 3 ? '' : 'No. ' + wrong.verse.no + ' - ' + wrong.verse.category}</div>
                                 </div>
                                 <div style="font-size: 14px; color: #ef4444; font-weight: bold;">
                                     오답 ${idx + 1}/${wrongAnswers.length}
